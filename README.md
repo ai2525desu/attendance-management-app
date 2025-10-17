@@ -36,7 +36,7 @@
     MAIL_USERNAME=null
     MAIL_PASSWORD=null
     MAIL_ENCRYPTION=null
-    MAIL_FROM_ADDRESS=mailhog-attendanse@example.com
+    MAIL_FROM_ADDRESS=mailhog-attendance@example.com
     MAIL_FROM_NAME="${APP_NAME}"
     ```
 5. アプリケーションキーの作成<br>
@@ -69,7 +69,7 @@
     ``` mysql -u root -p ```
 5. passwordにrootを入力する。<br>
     ``` root ```
-6. flea_market_testのDBを作成する<br>
+6. attendance_management_testのDBを作成する<br>
     ``` CREATE DATABASE attendance_management_test; ```
 
 **PHPUnitの実行**
