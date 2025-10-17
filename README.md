@@ -10,7 +10,7 @@
 ## 環境構築
 
 **Dockerビルド**
-1. git clone git@github.com:ai2525desu/flea-market-app.git
+1. git clone git@github.com:ai2525desu/attendance-management-app.git
 2. Docker Desktopを立ち上げる
 3. docker compose up -d --build
 
