@@ -60,16 +60,16 @@
 1. 「.env.testing.example」を「.env.testing」に命名変更。または、新しく「.env.testing」ファイルを作成する。
     - Mailhogの内容は「.env」と変更なし。
     - アプリケーションキーは空の状態。
-2. 「.env.testing」に対してアプリケーションキーを取得。
-    ``` php artisan key:generate --env=testing```
+2. 「.env.testing」に対してアプリケーションキーを取得。<br>
+    ``` php artisan key:generate --env=testing```<br>
 ※ PHPUnit 実行前に migrate や seed を手動で実行する必要はありません。
-3. mysqlのコンテナ内に入る
+3. mysqlのコンテナ内に入る<br>
     ``` docker compose exec mysql bash ```
-4. mysqlをrootユーザーで使用する。
+4. mysqlをrootユーザーで使用する。<br>
     ``` mysql -u root -p ```
-5. passwordにrootを入力する。
+5. passwordにrootを入力する。<br>
     ``` root ```
-6. flea_market_testのDBを作成する
+6. flea_market_testのDBを作成する<br>
     ``` CREATE DATABASE attendance_management_test; ```
 
 **PHPUnitの実行**
