@@ -28,15 +28,15 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // 一般ユーザーがauth/registerやauth/loginでFortifyを使用する場合の記述
+        // 一般ユーザーのユーザー認証
         Fortify::createUsersUsing(CreateNewUser::class);
 
         Fortify::registerView(function () {
-            return view('auth.register');
+            return view('auth.users.register');
         });
 
         Fortify::loginView(function () {
-            return view('auth.login');
+            return view('auth.users.login');
         });
 
         RateLimiter::for('login', function (Request $request) {
