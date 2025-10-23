@@ -106,7 +106,7 @@
 
 <!-- ER図完成後に.pngファイル貼り付け -->
 ## ER図
-![ER図]()
+![ER図](attendance-management-app.png)
 
 <!-- 必要URL記載すること -->
 ## URL
