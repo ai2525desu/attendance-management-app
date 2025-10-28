@@ -15,6 +15,11 @@ class CreateAttendanceCollectRequestsTable extends Migration
     {
         Schema::create('attendance_collect_requests', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('attendance_id')->constrained()->cascadeOnDelete();
+            $table->date('request_date');
+            $table->text('remarks');
+            $table->enum('status', ['pending', 'approved']);
             $table->timestamps();
         });
     }
