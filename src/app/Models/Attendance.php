@@ -12,6 +12,13 @@ class Attendance extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'work_date',
+        'clock_in',
+        'clock_out',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -24,6 +31,6 @@ class Attendance extends Model
 
     public function attendanceCorrectRequest()
     {
-        return $this->belongsTo(AttendanceCollectRequest::class);
+        return $this->hasOne(AttendanceCollectRequest::class);
     }
 }

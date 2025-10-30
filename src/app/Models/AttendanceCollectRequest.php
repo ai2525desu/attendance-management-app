@@ -12,6 +12,14 @@ class AttendanceCollectRequest extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'attendance_id',
+        'request_date',
+        'remarks',
+        'status',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -24,6 +32,6 @@ class AttendanceCollectRequest extends Model
 
     public function attendanceApproval()
     {
-        return $this->belongsTo(AttendanceApproval::class);
+        return $this->hasOne(AttendanceApproval::class);
     }
 }
