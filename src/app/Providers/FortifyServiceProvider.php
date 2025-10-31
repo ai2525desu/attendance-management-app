@@ -6,6 +6,7 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use App\Http\Controllers\AuthController;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -28,15 +29,22 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // 一般ユーザーのユーザー認証
-        Fortify::createUsersUsing(CreateNewUser::class);
-
         Fortify::registerView(function () {
-            return view('auth.users.register');
+            return view('user.auth.register');
         });
 
-        Fortify::loginView(function () {
-            return view('auth.users.login');
+        Fortify::loginView(function (Request $request) {
+            if ($request->is('admin/*')) {
+                return view('admin.auth.login');
+            }
+            return view('user.auth.login');
+        });
+
+        Fortify::authenticateUsing(function (Request $request) {
+            if ($request->is('admin/*')) {
+                return app(AuthController::class)->authenticateAdmin($request);
+            }
+            return app(AuthController::class)->authenticate($request);
         });
 
         RateLimiter::for('login', function (Request $request) {
