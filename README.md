@@ -41,9 +41,11 @@
     ```
 5. アプリケーションキーの作成<br>
     ``` php artisan key:generate ```
-6. テーブルデータ反映のためにマイグレーションの実行<br>
+6. src/storage/app/publicのディレクトリ下に保存してある画像を使用するために、シンボリックリンク作成<br>
+    ``` php artisan storage:link ```
+7. テーブルデータ反映のためにマイグレーションの実行<br>
     ``` php artisan migrate ```
-7. ダミーデータ反映のためにシーディング実行<br>
+8. ダミーデータ反映のためにシーディング実行<br>
     ``` php artisan db:seed ```
 
 **使用するマイグレーションファイル一覧**
@@ -104,12 +106,11 @@
             - ./src:/var/www/
         ```
 
-<!-- ER図完成後に.pngファイル貼り付け -->
 ## ER図
 ![ER図](attendance-management-app.png)
 
-<!-- 必要URL記載すること -->
 ## URL
-* 
+* 一般ユーザーログイン画面：
+* 管理者ログイン画面：http://localhost/admin/login
 * phpmyadmin:http://localhost:8080
 * Mailhog Web UI:http://localhost:8025/
