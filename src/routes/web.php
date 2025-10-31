@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// 一般ユーザー関連
+
+// 管理者関連
+Route::get('/admin/login', [AuthController::class, 'loginAdmin'])->name('admin.auth.login');
