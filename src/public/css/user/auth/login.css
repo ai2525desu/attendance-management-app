@@ -5,7 +5,8 @@
     padding: 30px 0;
 }
 
-.user-login-form__form-wrap {
+.user-login-form__form-wrap,
+.user-login-form__content--screen-transition {
     width: 50%;
     margin: 0 auto;
 }
