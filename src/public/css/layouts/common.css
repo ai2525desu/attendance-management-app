@@ -32,12 +32,14 @@
 }
 
 .header__logo--item {
+    appearance: none;
     text-decoration: none;
     border: none;
 }
 
 .header__logo--item img {
     display: inline-block;
+    border: none;
     width: 100%;
     max-width: 80%;
     height: auto;

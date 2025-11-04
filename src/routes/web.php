@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 // 一般ユーザー関連
+Route::get('/login', [AuthController::class, 'login'])->name('user.auth.login');
+Route::get('/register', [AuthController::class, 'register'])->name('user.auth.register');
 
 // 管理者関連
 Route::get('/admin/login', [AuthController::class, 'loginAdmin'])->name('admin.auth.login');
