@@ -44,8 +44,7 @@
                         <nav class="nav__wrap">
                             <ul class="nav__list">
                                 <li class="nav__item">
-                                    <!-- {{--href="{{ route('admin.attendance.list') }}--}} -->
-                                    <a class="screen-transition" href="">勤怠一覧</a>
+                                    <a class="screen-transition" href="{{ route('admin.attendance.list') }}">勤怠一覧</a>
                                 </li>
                                 <li class="nav__item">
                                     <!-- {{--href="{{ route('admin.staff.list')--}} }}" -->
