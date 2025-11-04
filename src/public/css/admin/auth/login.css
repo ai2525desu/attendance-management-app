@@ -1,3 +1,12 @@
+.login-alert__error {
+    padding: 5px 0;
+    background-color: #f8d7da;
+    text-align: center;
+    font-weight: 400;
+    font-size: clamp(12px, 1.3vw, 18px);
+    color: #FF5555;
+}
+
 .admin-login-form__content {
     max-width: 1400px;
     margin: 0 auto;

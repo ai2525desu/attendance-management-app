@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        // 上から順に読み込むので順序に注意
+        $this->call(AdminsTableseeder::class);
     }
 }

@@ -20,3 +20,8 @@ Route::get('/register', [AuthController::class, 'register'])->name('user.auth.re
 
 // 管理者関連
 Route::get('/admin/login', [AuthController::class, 'loginAdmin'])->name('admin.auth.login');
+Route::post('/admin/login', [AuthController::class, 'authenticateAdmin']);
+
+Route::middleware('auth:admin')->group(function () {
+    Route::post('/admmin/logout', [AuthController::class, 'logoutAdmin']);
+});

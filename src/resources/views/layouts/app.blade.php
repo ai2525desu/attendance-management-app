@@ -56,10 +56,19 @@
                                     <a class="screen-transition" href="">申請一覧</a>
                                 </li>
                                 <li class="nav__item">
+                                    @if (Auth::guard('admin')->check())
                                     <form class="logout-button" method="post" action="/admin/logout">
                                         @csrf
                                         <button class="logout-button__submit" type="submit">ログアウト</button>
                                     </form>
+                                    @elseif (Auth::guard('web')->check())
+                                    <form class="logout-button" method="post" action="/logout">
+                                        @csrf
+                                        <button class="logout-button__submit" type="submit">ログアウト</button>
+                                    </form>
+                                    @else
+                                    <!-- どちらにもチェックされない場合何も表示されない -->
+                                    @endif
                                 </li>
                             </ul>
                         </nav>
