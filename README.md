@@ -53,7 +53,7 @@
 * 2025_10_28_222221_create_admins_table.php
 * 2025_10_28_222237_create_attendances_table.php
 * 2025_10_28_223811_create_attendance_breaks_table.php
-* 2025_10_28_223842_create_attendance_collect_requests_table.php
+* 2025_10_28_223842_create_attendance_correct_requests_table.php
 * 2025_10_28_223906_create_attendance_approvals_table.php
 
 **シーダーファイル**
