@@ -5,6 +5,13 @@
 @endsection
 
 @section('content')
+@if(session('errorMessage'))
+<div class="login-alert">
+    <div class="login-alert__error">
+        {{ session('errorMessage') }}
+    </div>
+</div>
+@endif
 <div class="user-login-form__content">
     <div class="user-login-form__form-wrap">
         <h1 class="user-login-form__heading">

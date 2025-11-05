@@ -50,7 +50,7 @@
                                     <a class="screen-transition" href="{{ route('admin.staff.list') }}">スタッフ一覧</a>
                                 </li>
                                 <li class="nav__item">
-                                    <a class="screen-transition" href="{{ route('stamp_collection_request.list') }}">申請一覧</a>
+                                    <a class="screen-transition" href="{{ route('stamp_correction_request.list') }}">申請一覧</a>
                                 </li>
                                 <li class="nav__item">
                                     @if (Auth::guard('admin')->check())
@@ -75,16 +75,13 @@
                         <nav class="nav__wrap">
                             <ul class="nav__list">
                                 <li class="nav__item">
-                                    <!-- {{--href="{{ route('user.attendance.registration') }}--}} -->
-                                    <a class="screen-transition" href="">勤怠</a>
+                                    <a class="screen-transition" href="{{ route('user.attendance.registration') }}">勤怠</a>
+                                </li>
+                                <li class=" nav__item">
+                                    <a class="screen-transition" href="{{ route('user.attendance.list') }}">勤怠一覧</a>
                                 </li>
                                 <li class="nav__item">
-                                    <!-- {{--href="{{ route('user.attendance.list')--}} }}" -->
-                                    <a class="screen-transition" href="">勤怠一覧</a>
-                                </li>
-                                <li class="nav__item">
-                                    <!-- {{--href="{{ route('stamp_collection_request.list')--}} }}" -->
-                                    <a class="screen-transition" href="">申請</a>
+                                    <a class="screen-transition" href="{{ route('stamp_correction_request.list') }}">申請</a>
                                 </li>
                                 <li class="nav__item">
                                     <form class="logout-button" method="post" action="/logout">

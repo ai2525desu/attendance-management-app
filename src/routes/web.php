@@ -22,10 +22,13 @@ Route::get('/login', [AuthController::class, 'login'])->name('user.auth.login');
 Route::post('/login', [AuthController::class, 'authenticate']);
 Route::get('/register', [AuthController::class, 'register'])->name('user.auth.register');
 
-Route::middleware('auth:web')->group(function () {
+Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::get('/attendance', [AttendanceController::class, 'create'])->name('user.attendance.registration');
+    Route::get('/attendance/list', [AttendanceController::class, 'index'])->name('user.attendance.list');
+
+    Route::get('/stamp_correction_request/list', [AttendanceCorrectionController::class, 'indexCorrection'])->name('stamp_correction_request.list');
 });
 
 // 管理者関連
@@ -39,5 +42,5 @@ Route::middleware('auth:admin')->group(function () {
 
     Route::get('/admin/staff/list', [StaffAttendanceController::class, 'indexStaffList'])->name('admin.staff.list');
 
-    Route::get('/stamp_correction_request/list', [AttendanceCorrectionController::class, 'indexCorrection'])->name('stamp_collection_request.list');
+    Route::get('/stamp_correction_request/list', [AttendanceCorrectionController::class, 'indexCorrection'])->name('stamp_correction_request.list');
 });
