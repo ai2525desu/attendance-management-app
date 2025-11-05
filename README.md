@@ -49,12 +49,17 @@
     ``` php artisan db:seed ```
 
 **使用するマイグレーションファイル一覧**
-<!-- 作成後、内容記述 -->
-* 
+* 2014_10_12_000000_create_users_table.php
+* 2025_10_28_222221_create_admins_table.php
+* 2025_10_28_222237_create_attendances_table.php
+* 2025_10_28_223811_create_attendance_breaks_table.php
+* 2025_10_28_223842_create_attendance_collect_requests_table.php
+* 2025_10_28_223906_create_attendance_approvals_table.php
 
 **シーダーファイル**
-<!-- 作成後内容記述 -->
-* 
+<!-- 作成後、その都度追加すること -->
+* AdminsTableseeder.php
+* UsersTableseeder.php
 
 <!-- 10/17 PHPUnitテスト実行できるように各ファイル記述済みの状態。記述内容確認必ず -->
 ## PHPUnit/テスト環境の準備と実行について
@@ -92,6 +97,19 @@
 - mysql:8.0.26
 - Mailhog
 
+## 用意されているログインユーザー情報
+- 下記ユーザーでログイン可能です。
+1. 管理者
+    - **Email**: `admin@example.com`
+    - **Password**: `adminpassword`
+2. 一般ユーザー
+    **ユーザー名**: `山田太郎`
+        - **Email**: `yamada@example.com`
+        - **Password**: `password`
+    **ユーザー名**: `花田洋子`
+        - **Email**: `hanada@example.com`
+        - **Password**: `password`
+
 ## 権限エラー対策（Windows）
 * ホストとコンテナ間のファイル権限不一致によるエラーを防ぐため、docker/php/Dockerfileにて独自ユーザー('ai2525desu')を作成し、root権限以外でLaravelを実行している
     - Dockerfile一部抜粋<br>
@@ -110,7 +128,7 @@
 ![ER図](attendance-management-app.png)
 
 ## URL
-* 一般ユーザーログイン画面：
+* 一般ユーザーログイン画面：http://localhost/login
 * 管理者ログイン画面：http://localhost/admin/login
 * phpmyadmin:http://localhost:8080
 * Mailhog Web UI:http://localhost:8025/
