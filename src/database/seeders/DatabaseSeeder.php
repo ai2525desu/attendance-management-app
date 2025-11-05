@@ -14,6 +14,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // 上から順に読み込むので順序に注意
-        $this->call(AdminsTableseeder::class);
+        $this->call([
+            AdminsTableseeder::class,
+            UsersTableseeder::class,
+        ]);
     }
 }
