@@ -19,7 +19,14 @@ use Illuminate\Support\Facades\Route;
 
 // 一般ユーザー関連
 Route::get('/login', [AuthController::class, 'login'])->name('user.auth.login');
+Route::post('/login', [AuthController::class, 'authenticate']);
 Route::get('/register', [AuthController::class, 'register'])->name('user.auth.register');
+
+Route::middleware('auth:web')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+    Route::get('/attendance', [AttendanceController::class, 'create'])->name('user.attendance.registration');
+});
 
 // 管理者関連
 Route::get('/admin/login', [AuthController::class, 'loginAdmin'])->name('admin.auth.login');

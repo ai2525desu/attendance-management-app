@@ -14,6 +14,7 @@ class AuthController extends Controller
         return view('user.auth.login');
     }
 
+    // 一般ユーザーのログイン処理
     public function authenticate(LoginRequest $request)
     {
         $credentialsUser = $request->only('email', 'password');
@@ -35,6 +36,15 @@ class AuthController extends Controller
         //     return redirect()->route('user.attendance.registration');
         // }
         // return back()->with('errorMessage', 'ログイン情報が登録されていません');
+    }
+
+    // 一般ユーザーのログアウト処理
+    public function logout(Request $request)
+    {
+        Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('user.auth.login');
     }
 
     // 一般ユーザーの会員登録画面表示
