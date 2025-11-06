@@ -5,19 +5,18 @@
 @endsection
 
 @section('content')
-<!--エラーメッセージを使用する際のためにメモ残し
- <div class="verify-email-content__send-message">
-    {{--@if (session('message'))--}}
+<div class="verify-email-content__send-message">
+    @if (session('message'))
     <div class="verify-email-content__send-message--success">
         {{ session('message') }}
     </div>
-    {{--@endif--}}
-    {{--@if (session('errorMessage'))--}}
+    @endif
+    @if (session('errorMessage'))
     <div class="verify-email-content__send-message--uncertified">
         {{ session('errorMessage') }}
     </div>
-    {{--@endif--}}
-</div> -->
+    @endif
+</div>
 <div class="verify-email-content__wrap">
     <div class="verify-email-content__notice">
         <p class="verify-email-content__notice--text">
