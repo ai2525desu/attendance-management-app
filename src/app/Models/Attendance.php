@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\AttendanceBreak;
-use App\Models\AttendanceCollectRequest;
+use App\Models\AttendanceCorrectRequest;
 
 class Attendance extends Model
 {
@@ -31,6 +31,6 @@ class Attendance extends Model
 
     public function attendanceCorrectRequest()
     {
-        return $this->hasOne(AttendanceCollectRequest::class);
+        return $this->hasOne(AttendanceCorrectRequest::class);
     }
 }

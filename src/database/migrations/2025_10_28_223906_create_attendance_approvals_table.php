@@ -16,7 +16,7 @@ class CreateAttendanceApprovalsTable extends Migration
         Schema::create('attendance_approvals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('admin_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('attendance_collect_request_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('attendance_correct_request_id')->constrained()->cascadeOnDelete();
             $table->date('approved_date');
             $table->timestamps();
         });

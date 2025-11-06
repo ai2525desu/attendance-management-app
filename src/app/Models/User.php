@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Attendance;
-use App\Models\AttendanceCollectRequest;
+use App\Models\AttendanceCorrectRequest;
 
 class User extends Authenticatable
 {
@@ -51,6 +51,6 @@ class User extends Authenticatable
 
     public function attendanceCorrectRequests()
     {
-        return $this->hasMany(AttendanceCollectRequest::class);
+        return $this->hasMany(AttendanceCorrectRequest::class);
     }
 }

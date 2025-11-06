@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Models\Attendance;
 use App\Models\AttendanceApproval;
 
-class AttendanceCollectRequest extends Model
+class AttendanceCorrectRequest extends Model
 {
     use HasFactory;
 
