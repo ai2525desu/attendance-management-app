@@ -27,8 +27,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/attendance', [AttendanceController::class, 'create'])->name('user.attendance.registration');
     Route::get('/attendance/list', [AttendanceController::class, 'index'])->name('user.attendance.list');
-
-    Route::get('/stamp_correction_request/list', [AttendanceCorrectionController::class, 'indexCorrection'])->name('stamp_correction_request.list');
 });
 
 // 管理者関連
@@ -41,6 +39,9 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/attendance/list', [AttendanceController::class, 'indexAdmin'])->name('admin.attendance.list');
 
     Route::get('/admin/staff/list', [StaffAttendanceController::class, 'indexStaffList'])->name('admin.staff.list');
+});
 
+// 一般ユーザーと管理者が共通で開く必要があるもの
+Route::middleware('auth.any:web,admin')->group(function () {
     Route::get('/stamp_correction_request/list', [AttendanceCorrectionController::class, 'indexCorrection'])->name('stamp_correction_request.list');
 });
