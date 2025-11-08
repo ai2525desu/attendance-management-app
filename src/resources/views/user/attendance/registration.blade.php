@@ -1,7 +1,7 @@
 @extends('user.layout.user_app')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/admin/user/registration.css') }}">
+<link rel="stylesheet" href="{{ asset('css/user/attendance/registration.css') }}">
 @endsection
 
 @section('content')

@@ -17,7 +17,8 @@
 }
 
 .header__inner {
-    max-width: 1400px;
+    margin: 0 auto;
+    max-width: 1540px;
     min-height: 80px;
     padding: 0.5rem 1rem;
     display: flex;
@@ -25,13 +26,16 @@
     align-items: center;
 }
 
-.header_logo,
+.header__logo,
 .header__item {
     width: calc(100%/2);
     height: auto;
 }
 
 .header__logo--item {
+    display: block;
+    max-width: 370px;
+    height: auto;
     appearance: none;
     text-decoration: none;
     border: none;
@@ -41,7 +45,6 @@
     display: inline-block;
     border: none;
     width: 100%;
-    max-width: 80%;
     height: auto;
 }
 
@@ -53,6 +56,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    gap: 0.25rem;
     height: 40px;
     line-height: 40px;
 }
@@ -63,8 +67,9 @@
     cursor: pointer;
     border: none;
     font-weight: 700;
-    font-size: clamp(18px, 1.8vw, 24px);
+    font-size: clamp(10px, 1.8vw, 24px);
     color: #FFFFFF;
+    white-space: nowrap;
 }
 
 .logout-button__submit {
@@ -78,7 +83,7 @@
     outline: none;
     background: transparent;
     font-weight: 700;
-    font-size: clamp(18px, 1.8vw, 24px);
+    font-size: clamp(10px, 1.8vw, 24px);
     color: #FFFFFF;
     white-space: nowrap;
 }

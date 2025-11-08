@@ -23,7 +23,7 @@
                         <img src="{{ asset('storage/CoachTech_Logo.svg') }}" alt="CoachTech_Logo">
                     </a>
                     @else
-                    <a class="header__logo" href="{{ route('admin.auth.login') }}">
+                    <a class="header__logo--item" href="{{ route('admin.auth.login') }}">
                         <img src="{{ asset('storage/CoachTech_Logo.svg') }}" alt="CoachTech_Logo">
                     </a>
                     @endif

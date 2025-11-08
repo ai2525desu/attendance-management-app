@@ -19,11 +19,11 @@
             <div class="header__inner">
                 <div class="header__logo">
                     @if (Auth::guard('web')->check())
-                    <a class="header__logo" href="{{ route('user.attendance.registration') }}">
+                    <a class="header__logo--item" href="{{ route('user.attendance.registration') }}">
                         <img src="{{ asset('storage/CoachTech_Logo.svg') }}" alt="CoachTech_Logo">
                     </a>
                     @else
-                    <a class="header__logo" href="{{ route('user.auth.login') }}">
+                    <a class="header__logo--item" href="{{ route('user.auth.login') }}">
                         <img src="{{ asset('storage/CoachTech_Logo.svg') }}" alt="CoachTech_Logo">
                     </a>
                     @endif
