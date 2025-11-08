@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>coachtech 勤怠管理アプリ</title>
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/layouts/common.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/layout/admin_app.css') }}">
     @yield('css')
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,20 +22,10 @@
                     <a class="header__logo--item" href="{{ route('admin.attendance.list') }}">
                         <img src="{{ asset('storage/CoachTech_Logo.svg') }}" alt="CoachTech_Logo">
                     </a>
-                    @elseif (Auth::guard('web')->check())
-                    <a class="header__logo" href="{{ route('user.attendance.registration') }}">
-                        <img src="{{ asset('storage/CoachTech_Logo.svg') }}" alt="CoachTech_Logo">
-                    </a>
                     @else
-                    @if (request()->is('admin/*'))
                     <a class="header__logo" href="{{ route('admin.auth.login') }}">
                         <img src="{{ asset('storage/CoachTech_Logo.svg') }}" alt="CoachTech_Logo">
                     </a>
-                    @else
-                    <a class="header__logo" href="{{ route('user.auth.login') }}">
-                        <img src="{{ asset('storage/CoachTech_Logo.svg') }}" alt="CoachTech_Logo">
-                    </a>
-                    @endif
                     @endif
                 </div>
                 <div class="header__item">
@@ -50,41 +40,10 @@
                                     <a class="screen-transition" href="{{ route('admin.staff.list') }}">スタッフ一覧</a>
                                 </li>
                                 <li class="nav__item">
-                                    <a class="screen-transition" href="{{ route('stamp_correction_request.list') }}">申請一覧</a>
+                                    <a class="screen-transition" href="{{ route('admin.stamp_correction_request.list') }}">申請一覧</a>
                                 </li>
                                 <li class="nav__item">
-                                    @if (Auth::guard('admin')->check())
                                     <form class="logout-button" method="post" action="/admin/logout">
-                                        @csrf
-                                        <button class="logout-button__submit" type="submit">ログアウト</button>
-                                    </form>
-                                    @elseif (Auth::guard('web')->check())
-                                    <form class="logout-button" method="post" action="/logout">
-                                        @csrf
-                                        <button class="logout-button__submit" type="submit">ログアウト</button>
-                                    </form>
-                                    @else
-                                    <!-- どちらにもチェックされない場合何も表示されない -->
-                                    @endif
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-                    @elseif (Auth::guard('web')->check())
-                    <div class="header__item--nav">
-                        <nav class="nav__wrap">
-                            <ul class="nav__list">
-                                <li class="nav__item">
-                                    <a class="screen-transition" href="{{ route('user.attendance.registration') }}">勤怠</a>
-                                </li>
-                                <li class=" nav__item">
-                                    <a class="screen-transition" href="{{ route('user.attendance.list') }}">勤怠一覧</a>
-                                </li>
-                                <li class="nav__item">
-                                    <a class="screen-transition" href="{{ route('stamp_correction_request.list') }}">申請</a>
-                                </li>
-                                <li class="nav__item">
-                                    <form class="logout-button" method="post" action="/logout">
                                         @csrf
                                         <button class="logout-button__submit" type="submit">ログアウト</button>
                                     </form>
