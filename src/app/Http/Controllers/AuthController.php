@@ -23,22 +23,15 @@ class AuthController extends Controller
         $credentialsUser = $request->only('email', 'password');
 
         if (Auth::guard('web')->attempt($credentialsUser)) {
+            $user = Auth::user();
+            if (!$user->hasVerifiedEmail()) {
+                return redirect()->route('verification.notice')->with('errorMessage', 'メール認証が完了していません。メールを確認してください。');
+            }
+
             $request->session()->regenerate();
             return redirect()->route('user.attendance.registration');
         }
         return back()->with('errorMessage', 'ログイン情報が登録されていません');
-
-        // メール認証実装後のログイン認証機能
-        // if (Auth::guard('web')->attempt($credentialsUser)) {
-        //     $user = Auth::user();
-        //     if (!$user->hasVerifiedEmail()) {
-        //         return redirect()->route('verification.notice')->with('errorMessage', 'メール認証が完了していません。メールを確認してください。');
-        //     }
-
-        //     $request->session()->regenerate();
-        //     return redirect()->route('user.attendance.registration');
-        // }
-        // return back()->with('errorMessage', 'ログイン情報が登録されていません');
     }
 
     // 一般ユーザーのログアウト処理
