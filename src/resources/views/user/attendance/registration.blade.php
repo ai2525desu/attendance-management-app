@@ -8,25 +8,84 @@
 <div class="attendance-registration__content">
     <div class="attendance-registration__item">
         <div class="attendance-registration__item--working-status">
-            <span class="working-status">勤務外</span>
+            <span class="working-status">{{ $status }}</span>
         </div>
         <div class="attendance-registration__item--working-day">
-            <!-- コントローラーでCarbonを使用して取得かな？ -->
-            <p class="working-day">xxxx年x月x日</p>
+            <p class="working-day">{{ $dateTime->isoFormat('Y年M月D日(ddd)') }}</p>
         </div>
         <div class="attendance-registration__item--current-time">
-            <p class="current-time">00:00（現在時刻表示）</p>
+            <p class="current-time" id="current-time">{{ $dateTime->format('H:i') }}</p>
         </div>
     </div>
-    <div class="attendance-registration__form">
-        <form class="" action="" method="post" novalidate>
-            @csrf
-            <div class="attendance-registration__form-button">
-                <button class="attendance-registration__form-button--submit" type="submit">
-                    出勤
-                </button>
-            </div>
-        </form>
+    <div class="attendance-registration__item">
+        @if ($status === '勤務外')
+        <div class="attendance-registration__item--form">
+            <form class="form__attendance-to-work" action="" method="post" novalidate>
+                @csrf
+                <input type="hidden" name="work_date" value="{{ $dateTime->toDateString() }}">
+                <input type="hidden" name="user_id" value="{{ Auth::id() }}">
+                <input type="hidden" name="clock_in" value="{{ $dateTime->toDateTimeString() }}">
+                <div class="form__attendance-button">
+                    <button class="form__attendance-button--submit" type="submit">
+                        出勤
+                    </button>
+                </div>
+            </form>
+        </div>
+        @elseif ($status === '出勤中')
+        <div class="attendance-registration__item--form">
+            <form class="form__leaving-work" action="" method="post" novalidate>
+                @csrf
+                <input type="hidden" name="clock_out" value="{{ $dateTime->toDateTimeString() }}">
+                <div class="form__attendance-button">
+                    <button class="form__attendance-button--submit" type="submit">
+                        退勤
+                    </button>
+                </div>
+            </form>
+            <form class="form__breake-start" action="" method="post">
+                @csrf
+                <input type="hidden" name="attendance_id" value="{{ $user->attendances->id }}">
+                <input type="hidden" name="break_start" value="{{ $dateTime->toDateTimeString() }}">
+                <div class="form__break-button">
+                    <button class="form__break-button--submit">
+                        休憩入
+                    </button>
+                </div>
+            </form>
+        </div>
+        @elseif ($status === '休憩中')
+        <div class="attendance-registration__item--form">
+            <form class="form__breake-end" action="" method="post">
+                @csrf
+                <input type="hidden" name="break_end" value="{{ $dateTime->toDateTimeString() }}">
+                <div class="form__break-button">
+                    <button class="form__break-button--submit">
+                        休憩戻
+                    </button>
+                </div>
+            </form>
+        </div>
+        @else
+        <div class="attendance-registration__item--form">
+            <p class="form__none">
+                お疲れ様でした。
+            </p>
+        </div>
+        @endif
     </div>
 </div>
+
+<script>
+    function updateTime() {
+        const now = new Date();
+        const time = now.toLocaleTimeString('ja-JP', {
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+        document.getElementById('current-time').textContent = time;
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+</script>
 @endsection
