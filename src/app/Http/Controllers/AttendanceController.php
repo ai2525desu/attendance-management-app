@@ -7,6 +7,7 @@ use App\Models\AttendanceBreak;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Stmt\Break_;
 
 class AttendanceController extends Controller
 {
@@ -25,8 +26,8 @@ class AttendanceController extends Controller
 
         if ($todayAttendance) {
             if ($todayAttendance->clock_out) {
-                $status = '退勤済み';
-            } elseif ($todayAttendance->breaks()->whereNull('break_end')->exists()) {
+                $status = '退勤済';
+            } elseif ($todayAttendance->attendanceBreaks()->whereNull('break_end')->exists()) {
                 $status = '休憩中';
                 $attendanceButton = null;
                 $breakButton = 'break_end';
@@ -40,27 +41,108 @@ class AttendanceController extends Controller
         return view('user.attendance.registration', compact('dateTime', 'status', 'attendanceButton', 'breakButton'));
     }
 
-    // 勤怠登録機能:単一では動かないので分離させる必要あり
-    // public function store(Request $request)
-    // {
-    //     $user = Auth::user();
-    //     $dateTime = Carbon::now();
+    // 出勤時間の登録処理
+    public function clockIn()
+    {
+        $user = Auth::user();
+        $dateTime = Carbon::now();
+        $hasTodayAttendance = Attendance::where('user_id', $user->id)
+            ->whereDate('work_date', Carbon::today())
+            ->first();
 
-    //     Attendance::create([
-    //         'user_id' => $user->id,
-    //         'work_date' => $request->input('work_date'),
-    //         'clock_in' => $request->input('clock_in'),
-    //         'clock_out' => $request->input('clock_out'),
-    //     ]);
+        if ($hasTodayAttendance) {
+            return redirect()->route('user.attendance.registration')->with('errorMessage', '本日の出勤時間はすでに記録されています。');
+        }
 
-    //     AttendanceBreak::create([
-    //         'attendance_id' => $request->input($user->attendances->id),
-    //         'break_start' => $request->input('break_start'),
-    //         'break_end' => $request->input('break_end'),
-    //     ]);
+        Attendance::create([
+            'user_id' => $user->id,
+            'work_date' => $dateTime->toDateString(),
+            'clock_in' => $dateTime->toDateTimeString(),
+        ]);
 
-    //     return redirect();
-    // }
+        return redirect()->route('user.attendance.registration')->with('successMessage', '出勤時間を記録しました。');
+    }
+
+    // 退勤時間の登録処理
+    public function clockOut()
+    {
+        $user = Auth::user();
+        $dateTime = Carbon::now();
+
+        $hasTodayAttendance = Attendance::where('user_id', $user->id)
+            ->whereDate('work_date', Carbon::today())
+            ->whereNotNull('clock_in')
+            ->first();
+
+        if (!$hasTodayAttendance) {
+            return redirect()->route('user.attendance.registration')->with('errorMessage', '本日の出勤記録がありません。');
+        }
+
+        if ($hasTodayAttendance->clock_out) {
+            return redirect()->route('user.attendance.registration')->with('errorMessage', 'すでに退勤済みです。');
+        }
+
+        $hasTodayAttendance->update(['clock_out' => $dateTime->toDateTimeString()]);
+
+        return redirect()->route('user.attendance.registration')->with('successMessage', '退勤時間を記録しました');
+    }
+
+    // 休憩開始時間の登録処理
+    public function breakStart()
+    {
+        $user = Auth::user();
+        $dateTime = Carbon::now();
+
+
+        $hasTodayAttendance = Attendance::where('user_id', $user->id)
+            ->whereDate('work_date', Carbon::today())
+            ->whereNotNull('clock_in')
+            ->whereNull('clock_out')
+            ->first();
+
+        if (!$hasTodayAttendance) {
+            return redirect()->route('user.attendance.registration')->with('errorMessage', '本日の出勤記録がありません。');
+        }
+
+        $attendanceBreak = $hasTodayAttendance->attendanceBreaks()->whereNull('break_end')->latest('break_start')->first();
+        if ($attendanceBreak) {
+            return redirect()->route('user.attendance.registration')->with('errorMessage', '休憩中です。休憩を終了してください。');
+        }
+
+        AttendanceBreak::create([
+            'attendance_id' => $hasTodayAttendance->id,
+            'break_start' => $dateTime->toDateTimeString(),
+        ]);
+
+        return redirect()->route('user.attendance.registration')->with('successMessage', '休憩を開始しました。');
+    }
+
+    // 休憩終了時間の登録処理
+    public function breakEnd()
+    {
+        $user = Auth::user();
+        $dateTime = Carbon::now();
+
+        $hasTodayAttendance = Attendance::where('user_id', $user->id)
+            ->whereDate('work_date', Carbon::today())
+            ->whereNotNull('clock_in')
+            ->whereNull('clock_out')
+            ->first();
+
+        if (!$hasTodayAttendance) {
+            return redirect()->route('user.attendance.registration')->with('errorMessage', '本日の出勤記録がありません。');
+        }
+
+        $attendanceBreak = $hasTodayAttendance->attendanceBreaks()->latest('break_start')->first();
+        if (!$attendanceBreak || $attendanceBreak->break_end) {
+            return redirect()->route('user.attendance.registration')->with('errorMessage', '開始済みの休憩記録が見つかりません。');
+        }
+
+        $attendanceBreak->update([
+            'break_end' => $dateTime->toDateTimeString()
+        ]);
+        return redirect()->route('user.attendance.registration')->with('successMessage', '休憩を終了しました。');
+    }
 
     // 一般ユーザーの勤怠一覧画面
     public function index()

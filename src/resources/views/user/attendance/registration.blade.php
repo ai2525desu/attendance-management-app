@@ -5,6 +5,19 @@
 @endsection
 
 @section('content')
+<div class="attendance-registration__message">
+    セッションメッセージ
+    @if (session('successMessage'))
+    <div class="attendance-registration__message--success">
+        {{ session('successMessage') }}
+    </div>
+    @endif
+    @if (session('errorMessage'))
+    <div class="attendance-registration__message--error">
+        {{ session('errorMessage') }}
+    </div>
+    @endif
+</div>
 <div class="attendance-registration__content">
     <div class="attendance-registration__item">
         <div class="attendance-registration__item--working-status">
@@ -20,11 +33,8 @@
     <div class="attendance-registration__item">
         @if ($status === '勤務外')
         <div class="attendance-registration__item--form">
-            <form class="form__attendance-to-work" action="" method="post" novalidate>
+            <form class="form__attendance-to-work" action="{{ route('registration.clock_in') }}" method="post">
                 @csrf
-                <input type="hidden" name="work_date" value="{{ $dateTime->toDateString() }}">
-                <input type="hidden" name="user_id" value="{{ Auth::id() }}">
-                <input type="hidden" name="clock_in" value="{{ $dateTime->toDateTimeString() }}">
                 <div class="form__attendance-button">
                     <button class="form__attendance-button--submit" type="submit">
                         出勤
@@ -34,19 +44,16 @@
         </div>
         @elseif ($status === '出勤中')
         <div class="attendance-registration__item--form">
-            <form class="form__leaving-work" action="" method="post" novalidate>
+            <form class="form__leaving-work" action="{{ route('registration.clock_out') }}" method="post" novalidate>
                 @csrf
-                <input type="hidden" name="clock_out" value="{{ $dateTime->toDateTimeString() }}">
                 <div class="form__attendance-button">
                     <button class="form__attendance-button--submit" type="submit">
                         退勤
                     </button>
                 </div>
             </form>
-            <form class="form__breake-start" action="" method="post">
+            <form class="form__breake-start" action="{{ route('registration.break_start') }}" method="post">
                 @csrf
-                <input type="hidden" name="attendance_id" value="{{ $user->attendances->id }}">
-                <input type="hidden" name="break_start" value="{{ $dateTime->toDateTimeString() }}">
                 <div class="form__break-button">
                     <button class="form__break-button--submit">
                         休憩入
@@ -56,9 +63,8 @@
         </div>
         @elseif ($status === '休憩中')
         <div class="attendance-registration__item--form">
-            <form class="form__breake-end" action="" method="post">
+            <form class="form__breake-end" action="{{ route('registration.break_end') }}" method="post">
                 @csrf
-                <input type="hidden" name="break_end" value="{{ $dateTime->toDateTimeString() }}">
                 <div class="form__break-button">
                     <button class="form__break-button--submit">
                         休憩戻
@@ -68,12 +74,13 @@
         </div>
         @else
         <div class="attendance-registration__item--form">
-            <p class="form__none">
+            <div class="attendance-registration__clock-out">
                 お疲れ様でした。
-            </p>
+            </div>
         </div>
-        @endif
     </div>
+    @endif
+</div>
 </div>
 
 <script>

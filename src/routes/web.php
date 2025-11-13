@@ -41,6 +41,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::get('/attendance', [AttendanceController::class, 'create'])->name('user.attendance.registration');
+    Route::post('/attendance/clock_in', [AttendanceController::class, 'clockIn'])->name('registration.clock_in');
+    Route::post('/attendance/clock_out', [AttendanceController::class, 'clockOut'])->name('registration.clock_out');
+    Route::post('/attendance/break_start', [AttendanceController::class, 'breakStart'])->name('registration.break_start');
+    Route::post('/attendance/break_end', [AttendanceController::class, 'breakEnd'])->name('registration.break_end');
+
     Route::get('/attendance/list', [AttendanceController::class, 'index'])->name('user.attendance.list');
 
     Route::get('/stamp_correction_request/list', [AttendanceCorrectionController::class, 'indexCorrection'])->name('user.stamp_correction_request.list');
