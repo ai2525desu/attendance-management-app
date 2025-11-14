@@ -1,3 +1,11 @@
+.auth-background {
+    background-color: #FFFFFF;
+}
+
+.content-background {
+    background-color: #F0EFF2;
+}
+
 .layout {
     display: grid;
     grid-template-columns: 100%;

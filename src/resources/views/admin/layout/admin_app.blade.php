@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body class=" {{ request()->routeIs('admin.auth.login') ? 'auth-background' : 'content-background' }}">
     <div class="layout">
         <header class="header">
             <div class="header__inner">
@@ -58,9 +58,9 @@
             </div>
         </header>
     </div>
-    <div class="main">
+    <main class="main">
         @yield('content')
-    </div>
+    </main>
 </body>
 
 </html>
