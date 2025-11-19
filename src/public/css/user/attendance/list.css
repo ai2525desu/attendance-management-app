@@ -1,0 +1,29 @@
+.user-attendance-list__content {
+    max-width: 1540px;
+    margin: 5rem auto;
+    width: 60%;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 10% 5% 70%;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+}
+
+.user-attendance-list__title {
+    grid-row: 1/2;
+    padding: 0 0 0 1rem;
+    border-left: 8px solid #000;
+    height: 40px;
+    font-size: clamp(20px, 2.5vw, 30px);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+}
+
+.user-attendance-list__pagination {
+    grid-row: 2/3;
+}
+
+.user-attendance-list__monthly-attendance {
+    grid-row: 3/4;
+}
