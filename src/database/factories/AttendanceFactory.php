@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\Attendance;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Schema\ForeignIdColumnDefinition;
 
 class AttendanceFactory extends Factory
 {
@@ -15,53 +16,43 @@ class AttendanceFactory extends Factory
      *
      * @return array
      */
-    // データを1件作成するためのメソッド
     public function definition()
     {
-        $baseDate = Carbon::now();
-        $lastDay = $baseDate->copy()->endOfMonth()->day;
-        $workDate = $baseDate->copy()->setDay(rand(1, $lastDay));
-        $clockIn = $workDate->copy()->setTime(rand(8, 9), rand(0, 59));
-        $clockOut = $clockIn->copy()->addHours(rand(7, 10))->addMinutes(rand(0, 59));
-
+        // forMonth()にてafterCreatingを使用してデータを生成できるようにするための記述
         return [
-            // user_idの指定はSeeder側でfor($user)にて紐づけ
-            'work_date' => $workDate->toDateString(),
-            'clock_in' => $clockIn->toDateTimeString(),
-            'clock_out' => $clockOut->toDateTimeString(),
+            'work_date' => Carbon::parse('2000-01-01'),
+            'clock_in' => null,
+            'clock_out' => null,
         ];
     }
 
-    // public function definition()
-    // {
-    //     $baseDate = Carbon::now();
-    //     $lastDay = $baseDate->copy()->endOfMonth()->day;
-    //     $workDate = $baseDate->copy()->setDay(rand(1, $lastDay));
-    //     $clockIn = $workDate->copy()->setTime(rand(8, 9), rand(0, 59));
-    //     $clockOut = $clockIn->copy()->addHours(rand(7, 10))->addMinutes(rand(0, 59));
-
-    //     return [
-    //         // user_idの指定はSeeder側でfor($user)にて紐づけ
-    //         'work_date' => $workDate->toDateString(),
-    //         'clock_in' => $clockIn->toDateTimeString(),
-    //         'clock_out' => $clockOut->toDateTimeString(),
-    //     ];
-    // }
-
-    // 月内での重複を回避して、ダミーデータを作成するためのメソッド
-    public function monthBased(Carbon $baseDate, int $index)
+    // 隔月ごとの勤怠データをまとめて生成するメソッド
+    public function forMonth(Carbon $month)
     {
-        $lastDay = $baseDate->copy()->endOfMonth()->day;
+        return $this->afterCreating(function ($model) use ($month) {
+            $lastDay = $month->copy()->endOfMonth()->day;
 
-        $day = ($index % $lastDay) + 1;
-        $workDate = $baseDate->copy()->setDay(rand(1, $day));
-        $clockIn = $workDate->copy()->setTime(rand(8, 9), rand(0, 59));
-        $clockOut = $clockIn->copy()->addHours(rand(7, 10))->addMinutes(rand(0, 59));
+            $days = range(1, $lastDay);
+            shuffle($days);
+            $workDays = array_slice($days, 0, min(20, $lastDay));
+            $usedDays = [];
 
-        return $this->state([
-            'work_date' => $workDate->toDateString(),
-            'clock_in' => $clockIn->toDateTimeString(),
-            'clock_out' => $clockOut->toDateTimeString(),
-        ]);
+            foreach ($workDays as $day) {
+                if (in_array($day, $usedDays)) continue;
+                $usedDays[] = $day;
+
+                $workDate = $month->copy()->setDay($day);
+                $clockIn = $workDate->copy()->setTime(rand(8, 9), rand(0, 59));
+                $clockOut = $clockIn->copy()->addHours(rand(7, 10))->addMinutes(rand(0, 59));
+
+                Attendance::create([
+                    'user_id' => $model->user_id,
+                    'work_date' => $workDate->toDateString(),
+                    'clock_in' => $clockIn->toDateTimeString(),
+                    'clock_out' => $clockOut->toDateTimeString(),
+                ]);
+            }
+            $model->delete();
+        });
     }
 }
