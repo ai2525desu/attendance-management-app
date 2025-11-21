@@ -42,8 +42,8 @@ class AttendanceFactory extends Factory
                 $usedDays[] = $day;
 
                 $workDate = $month->copy()->setDay($day);
-                $clockIn = $workDate->copy()->setTime(rand(8, 9), rand(0, 59));
-                $clockOut = $clockIn->copy()->addHours(rand(7, 10))->addMinutes(rand(0, 59));
+                $clockIn = $workDate->copy()->setTime(rand(8, 9), rand(0, 30));
+                $clockOut = $clockIn->copy()->addHours(rand(8, 9))->addMinutes(rand(0, 59));
 
                 Attendance::create([
                     'user_id' => $model->user_id,

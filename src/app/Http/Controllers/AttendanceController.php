@@ -156,14 +156,20 @@ class AttendanceController extends Controller
         $startOfMonth = $targetDate->copy()->startOfMonth();
         $endOfMonth = $targetDate->copy()->endOfMonth();
 
-        $attendances = Attendance::with('attendancebreaks')->where('user_id', $user->id)->whereBetween('work_date', [$startOfMonth->format('Y-m-d'), $endOfMonth->format('Y-m-d'),])->get()->keyBy('work_date');
+        $attendances = Attendance::with('attendancebreaks')
+            ->where('user_id', $user->id)
+            ->whereBetween('work_date', [$startOfMonth->format('Y-m-d'), $endOfMonth->format('Y-m-d'),])
+            ->get()
+            ->keyBy(function ($workDate) {
+                return $workDate->work_date->format('Y-m-d');
+            });
 
         $daysInMonth = [];
         for ($day = 1; $day <= $targetDate->daysInMonth; $day++) {
             $date = Carbon::create($year, $month, $day);
             $attendance = $attendances->get($date->format('Y-m-d'));
-            $totalBreakFormat = $attendance ? $attendance->displayBreakTimeInHourFormat() : '00:00';
-            $totalWorkingTimeFormat = $attendance ? $attendance->displayWorkingTimeInHourFormat() : '00:00';
+            $totalBreakFormat = $attendance ? $attendance->displayBreakTimeInHourFormat() : '';
+            $totalWorkingTimeFormat = $attendance ? $attendance->displayWorkingTimeInHourFormat() : '';
 
             $daysInMonth[] = [
                 'date' => $date,
@@ -176,6 +182,14 @@ class AttendanceController extends Controller
         $previous = $targetDate->copy()->subMonth();
         $next = $targetDate->copy()->addMonth();
         return view('user.attendance.list', compact('daysInMonth', 'targetDate', 'previous', 'next'));
+    }
+
+    // 一般ユーザーの勤怠詳細画面
+    public function editDetail($id)
+    {
+        $user = Auth::user();
+        $attendance = Attendance::with('attendancebreaks')->findOrFail($id);
+        return view('user.attendance.detail', compact('user', 'attendance'));
     }
 
     // 管理者の勤怠一覧画面表示

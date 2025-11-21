@@ -48,6 +48,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/attendance/list', [AttendanceController::class, 'index'])->name('user.attendance.list');
 
+    Route::get('/attendance/detail/{id}', [AttendanceController::class, 'editDetail'])->name('user.attendance.detail');
+
     Route::get('/stamp_correction_request/list', [AttendanceCorrectionController::class, 'indexCorrection'])->name('user.stamp_correction_request.list');
 });
 

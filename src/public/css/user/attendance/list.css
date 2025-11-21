@@ -6,7 +6,7 @@
     display: grid;
     grid-template-rows: 10% 5% 70%;
     gap: 1rem;
-    grid-template-columns: 1fr;
+    grid-template-columns: auto;
 }
 
 .user-attendance-list__title {
