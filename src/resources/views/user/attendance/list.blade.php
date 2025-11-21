@@ -36,7 +36,7 @@
             @foreach ($daysInMonth as $day)
             <tr>
                 <td>
-                    {{ $day['date']->isoFormat('M/D(ddd)') }}
+                    {{ $day['date']->isoFormat('MM/DD(ddd)') }}
                 </td>
                 <td>
                     {{ $day['attendance'] ? $day['attendance']->clock_in->format('H:i') : '' }}
