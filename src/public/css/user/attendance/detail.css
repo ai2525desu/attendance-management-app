@@ -1,0 +1,78 @@
+.user-attendance-detail__content {
+    max-width: 1540px;
+    margin: 5rem auto;
+    width: 70%;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 40px auto;
+    gap: 2rem;
+}
+
+.user-attendance-detail__title {
+    grid-row: 1/2;
+    padding: 0 0 0 1rem;
+    border-left: 8px solid #000;
+    height: 40px;
+    font-size: clamp(20px, 2.5vw, 30px);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.user-attendance-detail__correction-form {
+    grid-row: 2/3;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    border-radius: 10px;
+}
+
+.correction-form__table {
+    width: 100%;
+    height: clamp(300px, 70vw, 550px);
+    background: #FFFFFF;
+    border-radius: 10px;
+}
+
+.correction-form__line {
+    border-bottom: 2px solid #E1E1E1;
+}
+
+.correction-form__line:last-child {
+    border-bottom: none;
+}
+
+.correction-form__heading {
+    width: 40%;
+    padding: 0.5rem 4rem;
+    text-align: left;
+}
+
+.correction-form__item {
+    width: 60%;
+    padding: 0.5rem 4rem;
+    text-align: left;
+}
+
+.correction-form__button {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    text-align: center;
+}
+
+.correction-form__button--submit {
+    appearance: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 0;
+    width: 20%;
+    height: clamp(25px, 4vw, 50px);
+    background: #000000;
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 22px);
+    color: #FFFFFF;
+    white-space: nowrap;
+}

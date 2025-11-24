@@ -6,9 +6,9 @@
 
 @section('content')
 <div class="user-attendance-list__content">
-    <h2 class="user-attendance-list__title">
+    <h1 class="user-attendance-list__title">
         勤怠一覧
-    </h2>
+    </h1>
     <div class="user-attendance-list__pagination">
         <a class="pagination__month" href="{{ route('user.attendance.list', ['year' => $previous->year, 'month' => $previous->month]) }}">
             <img class="pagination__month--arrow" src="{{ asset('storage/arrow.svg') }}" alt="←">

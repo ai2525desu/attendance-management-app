@@ -4,7 +4,7 @@
     width: 70%;
     min-height: 100vh;
     display: grid;
-    grid-template-rows: auto auto auto;
+    grid-template-rows: 40px auto auto;
     gap: 2rem;
 }
 
@@ -33,10 +33,11 @@
 }
 
 .pagination__month {
-    display: block;
     appearance: none;
     border: none;
+    cursor: pointer;
     text-decoration: none;
+    display: block;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -87,6 +88,10 @@
 
 .monthly-attendance__item-line {
     border-bottom: 2px solid #E1E1E1;
+}
+
+.monthly-attendance__item-line:last-child {
+    border-bottom: none;
 }
 
 .monthly-attendance__item {
