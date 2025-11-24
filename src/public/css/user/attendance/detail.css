@@ -47,12 +47,20 @@
     width: 40%;
     padding: 0.5rem 4rem;
     text-align: left;
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    color: #737373;
+    white-space: nowrap;
 }
 
 .correction-form__item {
     width: 60%;
     padding: 0.5rem 4rem;
     text-align: left;
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    color: #000000;
+    white-space: nowrap;
 }
 
 .correction-form__button {
@@ -75,4 +83,18 @@
     font-size: clamp(12px, 2vw, 22px);
     color: #FFFFFF;
     white-space: nowrap;
+}
+
+@media screen and (max-width:850px) {
+    .user-attendance-detail__content {
+        width: 80%;
+    }
+
+    .correction-form__heading {
+        padding: 0.5rem 1rem;
+    }
+
+    .correction-form__item {
+        padding: 0.5rem 1rem;
+    }
 }

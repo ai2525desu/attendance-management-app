@@ -39,7 +39,7 @@
             <tr class="correction-form__line">
                 <th class="correction-form__heading">備考
                 </th>
-                <td class="correction-form__item">テキストボックスでの備考入力欄</td>
+                <td class="correction-form__item">備考入力欄:font-size:14pxなので注意</td>
             </tr>
         </table>
         <div class="correction-form__button">
