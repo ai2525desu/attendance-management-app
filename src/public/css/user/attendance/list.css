@@ -1,12 +1,11 @@
 .user-attendance-list__content {
     max-width: 1540px;
     margin: 5rem auto;
-    width: 60%;
+    width: 70%;
     min-height: 100vh;
     display: grid;
-    grid-template-rows: 10% 5% 70%;
-    gap: 1rem;
-    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+    gap: 2rem;
 }
 
 .user-attendance-list__title {
@@ -18,12 +17,114 @@
     font-weight: 700;
     display: flex;
     align-items: center;
+    margin: 0;
 }
 
 .user-attendance-list__pagination {
     grid-row: 2/3;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FFFFFF;
+    border-radius: 10px;
+    height: clamp(40px, 5vw, 60px);
+    padding: 10px;
+}
+
+.pagination__month {
+    display: block;
+    appearance: none;
+    border: none;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.pagination__month--title {
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    color: #737373;
+}
+
+
+.pagination__month--title.current-month {
+    font-weight: 700;
+    font-size: clamp(16px, 2vw, 20px);
+    color: #000000;
+}
+
+.pagination__month--arrow {
+    opacity: 70%;
+}
+
+.pagination__month--arrow.right-direction {
+    transform: scale(-1, 1);
 }
 
 .user-attendance-list__monthly-attendance {
     grid-row: 3/4;
 }
+
+.monthly-attendance__table {
+    width: 100%;
+    background: #FFFFFF;
+    border-radius: 10px;
+}
+
+.monthly-attendance__table-header {
+    border-bottom: 3px solid #E1E1E1;
+}
+
+.monthly-attendance__heading {
+    padding: 0.5rem 2rem;
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    color: #737373;
+    white-space: nowrap;
+}
+
+.monthly-attendance__item-line {
+    border-bottom: 2px solid #E1E1E1;
+}
+
+.monthly-attendance__item {
+    padding: 0.5rem 2rem;
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    text-align: center;
+    color: #737373;
+    white-space: nowrap;
+}
+
+.date-inner {
+    display: inline-block;
+    width: 70%;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.monthly-attendance__screen-transition {
+    display: block;
+    appearance: none;
+    border: none;
+    text-decoration: none;
+    color: #000000;
+}
+
+@media screen and (max-width:850px) {
+    .user-attendance-list__content {
+        width: 80%;
+    }
+
+    .monthly-attendance__heading {
+        padding: 0.5rem 1rem;
+    }
+
+    .monthly-attendance__item {
+        padding: 0.5rem 1rem;
+    }
+}
+
+@media screen and (max-width:850px) {}

@@ -5,7 +5,6 @@ namespace Database\Factories;
 use App\Models\Attendance;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Schema\ForeignIdColumnDefinition;
 
 class AttendanceFactory extends Factory
 {
