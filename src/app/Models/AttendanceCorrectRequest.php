@@ -16,6 +16,10 @@ class AttendanceCorrectRequest extends Model
         'user_id',
         'attendance_id',
         'request_date',
+        'correct_clock_in',
+        'correct_clock_out',
+        'correct_break_start',
+        'correct_break_end',
         'remarks',
         'status',
     ];
