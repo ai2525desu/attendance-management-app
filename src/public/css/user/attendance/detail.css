@@ -54,13 +54,20 @@
 }
 
 .correction-form__item {
-    width: 60%;
+    width: 70%;
     padding: 0.5rem 4rem;
     text-align: left;
     font-weight: 700;
     font-size: clamp(12px, 2vw, 16px);
     color: #000000;
     white-space: nowrap;
+}
+
+.item__work-date {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .correction-form__button {

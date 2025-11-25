@@ -9,19 +9,34 @@
     <h1 class="user-attendance-detail__title">
         勤怠詳細
     </h1>
-    <form class="user-attendance-detail__correction-form">
+    <form class="user-attendance-detail__correction-form" method="post" action="{{ route('') }}">
         <table class="correction-form__table">
             <tr class="correction-form__line">
                 <th class="correction-form__heading">名前</th>
-                <td class="correction-form__item">取得してきたユーザー名</td>
+                <td class="correction-form__item">{{ $user->name }}</td>
             </tr>
             <tr class="correction-form__line">
                 <th class="correction-form__heading">日付</th>
-                <td class="correction-form__item">取得してきた日付</td>
+                <td class="correction-form__item">
+                    <div class="item__work-date">
+                        <span>{{ $attendance->work_date->format('Y年') }}</span>
+                        <span>{{ $attendance->work_date->format('m月d日') }}</span>
+                    </div>
+                </td>
             </tr>
             <tr class="correction-form__line">
                 <th class="correction-form__heading">出勤・退勤</th>
-                <td class="correction-form__item">取得してきた出勤時間～退勤時間</td>
+                <td class="correction-form__item">
+                    <div class="item__working-hours">
+                        <span>
+                            {{ $attendance->clock_in->format('H:i') }}
+                        </span>
+                        <span>~</span>
+                        <span>
+                            {{ $attendance->clock_out->format('H:i') }}
+                        </span>
+                    </div>
+                </td>
             </tr>
             <tr class="correction-form__line">
                 {{--@foreach ()--}}
