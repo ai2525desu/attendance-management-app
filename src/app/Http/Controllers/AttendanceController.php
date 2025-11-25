@@ -188,7 +188,7 @@ class AttendanceController extends Controller
     public function editDetail($id)
     {
         $user = Auth::user();
-        $attendance = Attendance::with('attendancebreaks')->findOrFail($id);
+        $attendance = Attendance::with('attendanceBreaks')->findOrFail($id);
         return view('user.attendance.detail', compact('user', 'attendance'));
     }
 

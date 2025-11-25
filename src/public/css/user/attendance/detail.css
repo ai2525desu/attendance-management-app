@@ -57,17 +57,45 @@
     width: 70%;
     padding: 0.5rem 4rem;
     text-align: left;
-    font-weight: 700;
-    font-size: clamp(12px, 2vw, 16px);
-    color: #000000;
     white-space: nowrap;
 }
 
-.item__work-date {
-    width: 50%;
+.correction-form__item--date {
+    width: 80%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.correction-form__item--text {
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    color: #000000;
+    text-align: left;
+}
+
+.correction-form__item--input {
+    width: 100px;
+    height: clamp(14px, 3vw, 29px);
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    color: #000000;
+    text-align: center;
+    outline: none;
+    border-radius: 4px;
+    border: 1px solid #E1E1E1;
+}
+
+
+.correction-form__item--textarea {
+    width: 100%;
+    height: clamp(36px, 6vw, 72px);
+    font-weight: 700;
+    color: #000000;
+    font-size: clamp(10px, 2vw, 14px);
+    outline: none;
+    border-radius: 4px;
+    border: 1px solid #E1E1E1;
 }
 
 .correction-form__button {
