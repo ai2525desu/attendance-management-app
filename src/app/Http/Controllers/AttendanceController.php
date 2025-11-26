@@ -192,6 +192,14 @@ class AttendanceController extends Controller
         return view('user.attendance.detail', compact('user', 'attendance'));
     }
 
+    public function createCorrection($id)
+    {
+        $user = Auth::user();
+        $attendance = Attendance::with('attendanceBreaks')->findOrFail($id);
+        // 11/28 1:07 いったん詳細画面にリダイレクトしているが、ここは申請一覧に遷移したほうがいいのかも？いったんこのじょうたいで
+        return redirect()->route('user.attendance.detail', $attendance->id);
+    }
+
     // 管理者の勤怠一覧画面表示
     public function indexAdmin()
     {
