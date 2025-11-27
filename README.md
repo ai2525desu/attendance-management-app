@@ -55,6 +55,7 @@
 * 2025_10_28_223811_create_attendance_breaks_table.php
 * 2025_10_28_223842_create_attendance_correct_requests_table.php
 * 2025_10_28_223906_create_attendance_approvals_table.php
+* 2025_11_27_235300_create_attendance_break_corrects_table.php
 
 **シーダーファイル**
 <!-- 作成後、その都度追加すること -->
