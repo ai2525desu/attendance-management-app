@@ -20,8 +20,6 @@ class CreateAttendanceCorrectRequestsTable extends Migration
             $table->date('request_date');
             $table->datetime('correct_clock_in')->nullable();
             $table->datetime('correct_clock_out')->nullable();
-            $table->datetime('correct_break_start')->nullable();
-            $table->datetime('correct_break_end')->nullable();
             $table->text('remarks');
             $table->enum('status', ['pending', 'approved']);
             $table->timestamps();

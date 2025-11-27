@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Attendance;
+use App\Models\AttendanceBreakCorrect;
 use App\Models\AttendanceApproval;
 
 class AttendanceCorrectRequest extends Model
@@ -18,8 +19,6 @@ class AttendanceCorrectRequest extends Model
         'request_date',
         'correct_clock_in',
         'correct_clock_out',
-        'correct_break_start',
-        'correct_break_end',
         'remarks',
         'status',
     ];
@@ -32,6 +31,11 @@ class AttendanceCorrectRequest extends Model
     public function attendance()
     {
         return $this->belongsTo(Attendance::class);
+    }
+
+    public function attendanceBreakCorrects()
+    {
+        return $this->hasMany(AttendanceBreakCorrect::class);
     }
 
     public function attendanceApproval()

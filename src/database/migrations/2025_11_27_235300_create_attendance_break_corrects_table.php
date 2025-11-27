@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAttendanceBreakCorretionsTable extends Migration
+class CreateAttendanceBreakCorrectsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class CreateAttendanceBreakCorretionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('attendance_break_corretions', function (Blueprint $table) {
+        Schema::create('attendance_break_corrects', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('attendance_correct_request_id')->constrained()->cascadeOnDelete();
+            $table->datetime('correct_break_start')->nullable();
+            $table->datetime('correct_break_end')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ class CreateAttendanceBreakCorretionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attendance_break_corretions');
+        Schema::dropIfExists('attendance_break_corrects');
     }
 }
