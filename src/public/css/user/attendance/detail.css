@@ -1,3 +1,11 @@
+.user-attendance-detail__session-message {
+    font-weight: 700;
+    font-size: clamp(10px, 2vw, 18px);
+    background-color: #ff9;
+    color: #000000;
+    text-align: center;
+}
+
 .user-attendance-detail__content {
     max-width: 1540px;
     margin: 5rem auto;
@@ -144,6 +152,13 @@
     font-size: clamp(12px, 2vw, 22px);
     color: #FFFFFF;
     white-space: nowrap;
+}
+
+.correction-form__button--none {
+    font-weight: 800;
+    font-size: clamp(10px, 2vw, 18px);
+    color: #FF000080;
+    opacity: 0.5;
 }
 
 @media screen and (max-width:850px) {

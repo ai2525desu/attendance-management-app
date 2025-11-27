@@ -5,6 +5,12 @@
 @endsection
 
 @section('content')
+@if (session('message'))
+<div class="user-attendance-detail__session-message">
+    {{ session('message') }}
+    セッションメッセージ
+</div>
+@endif
 <div class="user-attendance-detail__content">
     <h1 class="user-attendance-detail__title">
         勤怠詳細
@@ -193,8 +199,20 @@
                 </td>
             </tr>
         </table>
-        <div class="correction-form__button">
-            <button class="correction-form__button--submit" type="submit">修正</button>
+        <div class="correction-form__button-wrap">
+            @if (!$applyingFixes)
+            <div class="correction-form__button">
+                <button class="correction-form__button--submit" type="submit">
+                    修正
+                </button>
+            </div>
+            @else
+            <div class="correction-form__button ">
+                <span class="correction-form__button--none">
+                    *承認待ちのため修正はできません。
+                </span>
+            </div>
+            @endif
         </div>
     </form>
 </div>
