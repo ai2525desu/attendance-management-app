@@ -202,7 +202,6 @@ class AttendanceController extends Controller
     // 一般ユーザーの修正申請
     public function storeCorrection(AttendanceCorrectionFormRequest $request)
     {
-        // dd($request->all());
         $user = Auth::user();
         $attendance = Attendance::with('attendanceBreaks')->findOrFail($request->attendance_id);
 
