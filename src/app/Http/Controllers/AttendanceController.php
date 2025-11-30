@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AttendanceCorrectionFormRequest;
 use App\Models\Attendance;
 use App\Models\AttendanceBreak;
+use App\Models\AttendanceBreakCorrect;
 use App\Models\AttendanceCorrectRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -191,47 +193,65 @@ class AttendanceController extends Controller
         $user = Auth::user();
         $attendance = Attendance::with('attendanceBreaks')->findOrFail($id);
 
-        $amendmentApplication = AttendanceCorrectRequest::where('attendance_id', $attendance->id)->where('status', 'pending')->first();
+        $amendmentApplication = AttendanceCorrectRequest::with('attendanceBreakCorrects')->where('attendance_id', $attendance->id)->where('status', 'pending')->first();
         $applyingFixes = $amendmentApplication ? true : false;
 
         return view('user.attendance.detail', compact('user', 'attendance', 'applyingFixes'));
     }
 
-    public function storeCorrection(Request $request, $id)
+    // 一般ユーザーの修正申請
+    public function storeCorrection(AttendanceCorrectionFormRequest $request)
     {
+        // dd($request->all());
         $user = Auth::user();
-        // 11/28 1:07 詳細画面にリダイレクトしている。コーチに確認中。詳細画面以外の遷移ならば下記コードとreturn内部のidの部分不要
-        $attendance = Attendance::with('attendanceBreaks')->findOrFail($id);
+        $attendance = Attendance::with('attendanceBreaks')->findOrFail($request->attendance_id);
 
-        $exists = AttendanceCorrectRequest::where('attendance_id', $attendance->id)->first();
+        $exists = AttendanceCorrectRequest::with('attendanceBreakCorrects')->where('attendance_id', $attendance->id)->where('status', 'pending')->first();
         if ($exists) {
             return back()->with('message', 'すでに修正申請されています。');
         }
 
-        // 出退勤等input[type=text]で送られてくるデータをCarbonに変換する
+        // 出退勤のデータをCarbonに変換後、保存
         $workDate = $request->work_date;
         $inputClockIn = $request->correct_clock_in;
         $inputClockOut = $request->correct_clock_out;
-        $inputBreakStart = $request->correct_break_start;
-        $inputBreakEnd = $request->correct_break_end;
 
         $convertedClockIn = $inputClockIn ? Carbon::parse("$workDate $inputClockIn")->format('Y-m-d H:i:s') : null;
         $convertedClockOut = $inputClockOut ? Carbon::parse("$workDate $inputClockOut")->format('Y-m-d H:i:s') : null;
-        $convertedBreakStart = $inputBreakStart ? Carbon::parse("$workDate $inputBreakStart")->format('Y-m-d H:i:s') : null;
-        $convertedBreakEnd = $inputBreakEnd ? Carbon::parse("$workDate $inputBreakEnd")->format('Y-m-d H:i:s') : null;
 
-        AttendanceCorrectRequest::creat([
+        $attendanceCorrection = AttendanceCorrectRequest::create([
             'user_id' => $user->id,
-            'attendance_id' => $request->attendance_id,
+            'attendance_id' => $attendance->id,
             'request_date' => Carbon::now(),
             'correct_clock_in' => $convertedClockIn,
             'correct_clock_out' => $convertedClockOut,
-            'correct_break_start' => $convertedBreakStart,
-            'correct_break_end' => $convertedBreakEnd,
             'remarks' => $request->remarks,
             'status' => 'pending',
         ]);
-        return redirect()->route('user.attendance.detail', $attendance->id);
+
+        // 休憩のデータをCarbonへの返還後に保存
+        $breakStarts = $request->correct_break_start ?? [];
+        $breakEnds = $request->correct_break_end ?? [];
+
+        foreach ($breakStarts as $index => $allBreakstart) {
+            $startTime = $allBreakstart['start'] ?? null;
+            $endTime = $breakEnds[$index]['end'] ?? null;
+
+            if (!$startTime && !$endTime) {
+                continue;
+            }
+
+            $start = Carbon::parse("$workDate $startTime")->format('Y-m-d H:i:s');
+            $end = Carbon::parse("$workDate $endTime")->format('Y-m-d H:i:s');
+
+            AttendanceBreakCorrect::create([
+                'attendance_correct_request_id' => $attendanceCorrection->id,
+                'correct_break_start' => $start,
+                'correct_break_end' => $end,
+            ]);
+        }
+
+        return redirect()->route('user.stamp_correction_request.list')->with('success', '勤怠の修正を申請しました。');
     }
 
     // 管理者の勤怠一覧画面表示

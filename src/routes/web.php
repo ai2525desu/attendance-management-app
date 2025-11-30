@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/attendance/list', [AttendanceController::class, 'index'])->name('user.attendance.list');
 
     Route::get('/attendance/detail/{id}', [AttendanceController::class, 'editDetail'])->name('user.attendance.detail');
-    Route::post('/attendance/detail/{id}', [AttendanceController::class, 'createCorrection'])->name('user.attendance.createCorrection');
+    Route::post('/attendance/detail/{id}', [AttendanceController::class, 'storeCorrection'])->name('user.attendance.storeCorrection');
 
     Route::get('/stamp_correction_request/list', [AttendanceCorrectionController::class, 'indexCorrection'])->name('user.stamp_correction_request.list');
 });

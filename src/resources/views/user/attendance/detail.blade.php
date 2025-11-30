@@ -15,7 +15,8 @@
     <h1 class="user-attendance-detail__title">
         勤怠詳細
     </h1>
-    <form class="user-attendance-detail__correction-form" method="post" action="{{ route('user.attendance.createCorrection', ['id' => $attendance->id]) }}">
+    <form class="user-attendance-detail__correction-form" method="post" action="{{ route('user.attendance.storeCorrection', ['id' => $attendance->id]) }}" novalidate>
+        @csrf
         <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">
         <input type="hidden" name="user_id" value="{{ $user->id }}">
         <input type="hidden" name="work_date" value="{{ $attendance->work_date->format('Y-m-d') }}">
@@ -52,16 +53,16 @@
                         <input class="correction-form__input left" type="text" name="correct_clock_out" value="{{ old('correct_clock_out', $attendance?->clock_out->format('H:i')) }}">
                     </div>
                     <div class="correction-form__item--error">
+                        @error('correct_clock_in')
                         <span class="error-message">
-                            @error('correct_clock_in')
                             {{ $message }}
-                            @enderror
                         </span>
+                        @enderror
+                        @error('correct_clock_end')
                         <span class="error-message">
-                            @error('correct_clock_end')
                             {{ $message }}
-                            @enderror
                         </span>
+                        @enderror
                     </div>
                 </td>
             </tr>
@@ -71,21 +72,21 @@
                 <th class="correction-form__heading">休憩{{ $loop->first ? '' : $loop->iteration }}</th>
                 <td class="correction-form__item">
                     <div class="correction-form__item--information">
-                        <input class="correction-form__input right" type="text" name="correct_break_start[{{ $index }}][start]" value="{{ old('correct_break_start.$index.start', $break?->break_start->format('H:i')) }}">
+                        <input class="correction-form__input right" type="text" name="correct_break_start[{{ $index }}][start]" value="{{ old("correct_break_start.$index.start", $break?->break_start->format('H:i')) }}">
                         <span class="correction-form__text middle">~</span>
-                        <input class="correction-form__input left" type="text" name="correct_break_end[{{ $index }}][end]" value="{{ old('correct_break_end.$index.end', $break?->break_end->format('H:i')) }}">
+                        <input class="correction-form__input left" type="text" name="correct_break_end[{{ $index }}][end]" value="{{ old("correct_break_end.$index.end", $break?->break_end->format('H:i')) }}">
                     </div>
                     <div class="correction-form__item--error">
+                        @error("correct_break_start.$index.start")
                         <span class="error-message">
-                            @error('correct_break_start')
                             {{ $message }}
-                            @enderror
                         </span>
+                        @enderror
+                        @error("correct_break_end.$index.end")
                         <span class="error-message">
-                            @error('correct_break_end')
                             {{ $message }}
-                            @enderror
                         </span>
+                        @enderror
                     </div>
                 </td>
             </tr>
@@ -100,16 +101,16 @@
                         <input class="correction-form__input left" type="text" name="correct_break_end[0][end]" value="{{ old('correct_break_end.0.end', $attendance->attendanceBreaks[0]?->break_end->format('H:i')) }}">
                     </div>
                     <div class="correction-form__item--error">
+                        @error('correct_break_start.0.start')
                         <span class="error-message">
-                            @error('correct_break_start')
                             {{ $message }}
-                            @enderror
                         </span>
+                        @enderror
+                        @error('correct_break_end.0.end')
                         <span class="error-message">
-                            @error('correct_break_end')
                             {{ $message }}
-                            @enderror
                         </span>
+                        @enderror
                     </div>
                 </td>
             </tr>
@@ -122,16 +123,16 @@
                         <input class="correction-form__input left" type="text" name="correct_break_end[1][end]" value="{{ old('correct_break_end.1.end') }}">
                     </div>
                     <div class="correction-form__item--error">
+                        @error('correct_break_start.1.start')
                         <span class="error-message">
-                            @error('correct_break_start')
                             {{ $message }}
-                            @enderror
                         </span>
+                        @enderror
+                        @error('correct_break_end.1.end')
                         <span class="error-message">
-                            @error('correct_break_end')
                             {{ $message }}
-                            @enderror
                         </span>
+                        @enderror
                     </div>
                 </td>
             </tr>
@@ -145,16 +146,16 @@
                         <input class="correction-form__input left" type="text" name="correct_break_end[0][end]" value="{{ old('correct_break_end.0.end') }}">
                     </div>
                     <div class="correction-form__item--error">
+                        @error('correct_break_start.0.start')
                         <span class="error-message">
-                            @error('correct_break_start')
                             {{ $message }}
-                            @enderror
                         </span>
+                        @enderror
+                        @error('correct_break_end.0.end')
                         <span class="error-message">
-                            @error('correct_break_end')
                             {{ $message }}
-                            @enderror
                         </span>
+                        @enderror
                     </div>
                 </td>
             </tr>
@@ -167,16 +168,16 @@
                         <input class="correction-form__input" type="text" name="correct_break_end[1][end]" value="{{ old('correct_break_end.1.end') }}">
                     </div>
                     <div class="correction-form__item--error">
+                        @error('correct_break_start.1.start')
                         <span class="error-message">
-                            @error('correct_break_start')
                             {{ $message }}
-                            @enderror
                         </span>
+                        @enderror
+                        @error('correct_break_end.1.end')
                         <span class="error-message">
-                            @error('correct_break_end')
                             {{ $message }}
-                            @enderror
                         </span>
+                        @enderror
                     </div>
                 </td>
             </tr>
