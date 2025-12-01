@@ -58,7 +58,7 @@
                             {{ $message }}
                         </span>
                         @enderror
-                        @error('correct_clock_end')
+                        @error('correct_clock_out')
                         <span class="error-message">
                             {{ $message }}
                         </span>
@@ -66,7 +66,6 @@
                     </div>
                 </td>
             </tr>
-            {{--@if ($attendance->attendancebreaks->count() >= 2)--}}
             @foreach ($attendance->attendanceBreaks as $index => $break)
             <tr class="correction-form__line">
                 <th class="correction-form__heading">休憩{{ $loop->first ? '' : $loop->iteration }}</th>
@@ -95,17 +94,17 @@
                 <th class="correction-form__heading">休憩{{ $attendance->attendanceBreaks ? count($attendance->attendanceBreaks) + 1 : 1 }}</th>
                 <td class="correction-form__item">
                     <div class="correction-form__item--information">
-                        <input class="correction-form__input right" type="text" name="correct_break_start[][start]" value="">
+                        <input class="correction-form__input right" type="text" name="correct_break_start[{{ $breakIndex }}][start]" value="">
                         <span class="correction-form__text middle">~</span>
-                        <input class="correction-form__input left" type="text" name="correct_break_end[][end]" value="">
+                        <input class="correction-form__input left" type="text" name="correct_break_end[{{ $breakIndex }}][end]" value="">
                     </div>
                     <div class="correction-form__item--error">
-                        @error("correct_break_start.$index.start")
+                        @error("correct_break_start.$breakIndex.start")
                         <span class="error-message">
                             {{ $message }}
                         </span>
                         @enderror
-                        @error("correct_break_end.$index.end")
+                        @error("correct_break_end.$breakIndex.end")
                         <span class="error-message">
                             {{ $message }}
                         </span>

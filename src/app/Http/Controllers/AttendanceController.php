@@ -196,7 +196,9 @@ class AttendanceController extends Controller
         $amendmentApplication = AttendanceCorrectRequest::with('attendanceBreakCorrects')->where('attendance_id', $attendance->id)->where('status', 'pending')->first();
         $applyingFixes = $amendmentApplication ? true : false;
 
-        return view('user.attendance.detail', compact('user', 'attendance', 'applyingFixes'));
+        $breakIndex = $attendance->attendanceBreaks->count();
+
+        return view('user.attendance.detail', compact('user', 'attendance', 'applyingFixes', 'breakIndex'));
     }
 
     // 一般ユーザーの修正申請
