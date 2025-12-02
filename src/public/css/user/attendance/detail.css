@@ -9,7 +9,7 @@
 .user-attendance-detail__content {
     max-width: 1540px;
     margin: 5rem auto;
-    width: 70%;
+    width: 60%;
     min-height: 100vh;
     display: grid;
     grid-template-rows: 40px auto;
