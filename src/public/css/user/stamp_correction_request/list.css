@@ -35,3 +35,17 @@
     gap: 2rem;
     border-radius: 10px;
 }
+
+@media screen and (max-width:850px) {
+    .user-corection-list__content {
+        width: 80%;
+    }
+
+    .correction-tab__heading {
+        padding: 0.5rem 1rem;
+    }
+
+    .orrection-tab__information {
+        padding: 0.5rem 1rem;
+    }
+}

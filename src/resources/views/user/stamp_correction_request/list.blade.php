@@ -27,42 +27,30 @@
         <div class="correction-tab__body">
             <table class="correction-tab__table {{ $tab === 'pending' ? 'is-active' : '' }}">
                 <thead>
-                    <tr class="correction-tab__line">
-                        <th class="correction-tab__header">
-                            <span class="correction-tab__heading">
-                                状態
-                            </span>
+                    <tr class="correction-tab__header">
+                        <th class="correction-tab__heading">
+                            状態
                         </th>
-                        <th class="correction-tab__header">
-                            <span class="correction-tab__heading">
-                                名前
-                            </span>
+                        <th class="correction-tab__heading">
+                            名前
                         </th>
-                        <th class="correction-tab__header">
-                            <span class="correction-tab__heading">
-                                対象日時
-                            </span>
+                        <th class="correction-tab__heading">
+                            対象日時
                         </th>
-                        <th class="correction-tab__header">
-                            <span class="correction-tab__heading">
-                                申請理由
-                            </span>
+                        <th class="correction-tab__heading">
+                            申請理由
                         </th>
-                        <th class="correction-tab__header">
-                            <span class="correction-tab__heading">
-                                申請日時
-                            </span>
+                        <th class="correction-tab__heading">
+                            申請日時
                         </th>
-                        <th class="correction-tab__header">
-                            <span class="correction-tab__heading">
-                                詳細
-                            </span>
+                        <th class="correction-tab__heading">
+                            詳細
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     {{--@foreach ()--}}
-                    <tr class="correction-tab__line">
+                    <tr class="correction-tab__information-line">
                         <td class="correction-tab__information">
                             <!-- status -->
                             承認待ち
@@ -95,42 +83,30 @@
             </table>
             <table class="correction-tab__table {{ $tab === 'approved' ? 'is-active' : '' }}">
                 <thead>
-                    <tr class="correction-tab__line">
-                        <th class="correction-tab__header">
-                            <span class="correction-tab__heading">
-                                状態
-                            </span>
+                    <tr class="correction-tab__header">
+                        <th class="correction-tab__heading">
+                            状態
                         </th>
-                        <th class="correction-tab__header">
-                            <span class="correction-tab__heading">
-                                名前
-                            </span>
+                        <th class="correction-tab__heading">
+                            名前
                         </th>
-                        <th class="correction-tab__header">
-                            <span class="correction-tab__heading">
-                                対象日時
-                            </span>
+                        <th class="correction-tab__heading">
+                            対象日時
                         </th>
-                        <th class="correction-tab__header">
-                            <span class="correction-tab__heading">
-                                申請理由
-                            </span>
+                        <th class="correction-tab__heading">
+                            申請理由
                         </th>
-                        <th class="correction-tab__header">
-                            <span class="correction-tab__heading">
-                                申請日時
-                            </span>
+                        <th class="correction-tab__heading">
+                            申請日時
                         </th>
-                        <th class="correction-tab__header">
-                            <span class="correction-tab__heading">
-                                詳細
-                            </span>
+                        <th class="correction-tab__heading">
+                            詳細
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     {{--@foreach ()--}}
-                    <tr class="correction-tab__line">
+                    <tr class="correction-tab__information-line">
                         <td class="correction-tab__information">
                             <!-- status -->
                             承認待ち
