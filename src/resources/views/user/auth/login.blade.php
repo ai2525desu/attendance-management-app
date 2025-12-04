@@ -27,7 +27,7 @@
                         </label>
                     </div>
                     <div class="user-login-form__group--content">
-                        <input id="email" type="email" name="email" value="{{ old('email') }}">
+                        <input id="email" type="email" name="email" autocomplete="email" value="{{ old('email') }}">
                     </div>
                     <div class="user-login-form__group--error">
                         @error('email')

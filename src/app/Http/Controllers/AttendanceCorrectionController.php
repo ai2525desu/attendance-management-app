@@ -11,11 +11,23 @@ class AttendanceCorrectionController extends Controller
     // 一般ユーザーの申請一覧画面表示
     public function indexCorrection(Request $request)
     {
-        // tab は動的セグメント＝画面のリロードで切り替えするため記述注意
         $tab = $request->query('tab', 'pending');
         $user = Auth::user();
-        $attendanceCorrection = AttendanceCorrectRequest::with('attendanceBreakCorrects');
-        return view('user.stamp_correction_request.list', compact('tab', 'user',));
+
+        $statusMap = [
+            'pending' => 'pending',
+            'approved' => 'approved',
+        ];
+
+
+        $status = $statusMap[$tab] ?? 'pending';
+        $corrections = AttendanceCorrectRequest::with('attendance')->where('user_id', $user->id)->where('status', $status)->orderBy('created_at', 'desc')
+            ->get();
+        $corrections->each(function ($correction) {
+            $correction->status_text = AttendanceCorrectRequest::STATUS[$correction->status];
+        });
+
+        return view('user.stamp_correction_request.list', compact('tab', 'user', 'corrections'));
     }
 
     // 管理者の申請一覧画面表示

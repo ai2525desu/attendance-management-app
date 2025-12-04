@@ -23,6 +23,15 @@ class AttendanceCorrectRequest extends Model
         'status',
     ];
 
+    protected $casts = [
+        'request_date' => 'date',
+    ];
+
+    const STATUS = [
+        'pending' => '承認待ち',
+        'approved' => '承認済み',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

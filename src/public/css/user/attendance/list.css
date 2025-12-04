@@ -29,7 +29,7 @@
     background: #FFFFFF;
     border-radius: 10px;
     height: clamp(40px, 5vw, 60px);
-    padding: 10px;
+    padding: 10px 20px;
 }
 
 .pagination__month {
@@ -101,6 +101,7 @@
     text-align: center;
     color: #737373;
     white-space: nowrap;
+    letter-spacing: 0.1rem;
 }
 
 .date-inner {

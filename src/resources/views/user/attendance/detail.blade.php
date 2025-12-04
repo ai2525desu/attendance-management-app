@@ -47,7 +47,7 @@
             <tr class="correction-form__line">
                 <th class="correction-form__heading">出勤・退勤</th>
                 <td class="correction-form__item">
-                    <div class="correction-form__item--information">
+                    <div class="correction-form__item--information {{ $applyingFixes ? 'pending' : '' }}">
                         <input class="correction-form__input right" type="text" name="correct_clock_in" value="{{ old('correct_clock_in',$attendance?->clock_in->format('H:i')) }}">
                         <span class="correction-form__text middle">~</span>
                         <input class="correction-form__input left" type="text" name="correct_clock_out" value="{{ old('correct_clock_out', $attendance?->clock_out->format('H:i')) }}">
@@ -70,7 +70,7 @@
             <tr class="correction-form__line">
                 <th class="correction-form__heading">休憩{{ $loop->first ? '' : $loop->iteration }}</th>
                 <td class="correction-form__item">
-                    <div class="correction-form__item--information">
+                    <div class="correction-form__item--information {{ $applyingFixes ? 'pending' : '' }}">
                         <input class="correction-form__input right" type="text" name="correct_break_start[{{ $index }}][start]" value="{{ old("correct_break_start.$index.start", $break?->break_start->format('H:i')) }}">
                         <span class="correction-form__text middle">~</span>
                         <input class="correction-form__input left" type="text" name="correct_break_end[{{ $index }}][end]" value="{{ old("correct_break_end.$index.end", $break?->break_end->format('H:i')) }}">
@@ -90,10 +90,10 @@
                 </td>
             </tr>
             @endforeach
-            <tr class="correction-form__line">
+            <tr class="correction-form__line {{ $applyingFixes ? 'pending' : '' }}">
                 <th class="correction-form__heading">休憩{{ $attendance->attendanceBreaks ? count($attendance->attendanceBreaks) + 1 : 1 }}</th>
                 <td class="correction-form__item">
-                    <div class="correction-form__item--information">
+                    <div class="correction-form__item--information {{ $applyingFixes ? 'pending' : '' }}">
                         <input class="correction-form__input right" type="text" name="correct_break_start[{{ $breakIndex }}][start]" value="">
                         <span class="correction-form__text middle">~</span>
                         <input class="correction-form__input left" type="text" name="correct_break_end[{{ $breakIndex }}][end]" value="">
@@ -117,8 +117,8 @@
                     備考
                 </th>
                 <td class="correction-form__item">
-                    <div class="correction-form__item--remark">
-                        <textarea class="correction-form__textarea" name="remarks">{{ old('remarks') }}</textarea>
+                    <div class="correction-form__item--remark {{ $applyingFixes ? 'pending' : '' }}">
+                        <textarea class="correction-form__textarea {{ $applyingFixes ? 'pending' : '' }}" name="remarks">{{ old('remarks', $amendmentApplication?->remarks) }}</textarea>
                     </div>
                     <div class="correction-form__item--error">
                         <span class="error-message">

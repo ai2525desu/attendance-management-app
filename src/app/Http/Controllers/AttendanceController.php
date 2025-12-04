@@ -198,7 +198,7 @@ class AttendanceController extends Controller
 
         $breakIndex = $attendance->attendanceBreaks->count();
 
-        return view('user.attendance.detail', compact('user', 'attendance', 'applyingFixes', 'breakIndex'));
+        return view('user.attendance.detail', compact('user', 'attendance', 'amendmentApplication', 'applyingFixes', 'breakIndex'));
     }
 
     // 一般ユーザーの修正申請

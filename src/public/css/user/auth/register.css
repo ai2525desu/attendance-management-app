@@ -23,6 +23,10 @@
     text-align: left;
 }
 
+.user-register-form__group--title {
+    margin-bottom: 0.5rem;
+}
+
 .user-register-form__group--label {
     font-weight: 700;
     font-size: clamp(18px, 1.8vw, 24px);

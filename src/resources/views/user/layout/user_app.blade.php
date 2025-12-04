@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100..900&display=swap" rel="stylesheet">
 </head>
 
-<body class="{{ request()->routeIs('user.auth.*') ? 'auth-background' : 'content-background' }}">
+<body class="{{ request()->routeIs('user.auth.*') || request()->routeIs('verification.*') ? 'auth-background' : 'content-background' }}">
     <div class="layout">
         <header class="header">
             <div class="header__inner">
@@ -29,7 +29,7 @@
                     @endif
                 </div>
                 <div class="header__item">
-                    @if (Auth::guard('web')->check())
+                    @if (Auth::guard('web')->check() && !request()->routeIs('verification.*'))
                     <div class="header__item--nav">
                         <nav class="nav__wrap">
                             <ul class="nav__list">
