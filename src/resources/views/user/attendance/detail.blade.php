@@ -53,16 +53,6 @@
                         <input class="correction-form__input left" type="text" name="correct_clock_out" value="{{ old('correct_clock_out', $attendance?->clock_out->format('H:i')) }}" {{ $applyingFixes ? 'readonly' : '' }}>
                     </div>
                     <div class="correction-form__item--error">
-                        {{--@error('correct_clock_in')
-                        <span class="error-message">
-                            {{ $message }}
-                        </span>
-                        @enderror
-                        @error('correct_clock_out')
-                        <span class="error-message">
-                            {{ $message }}
-                        </span>
-                        @enderror--}}
                         @if ($clockInError)
                         <span class="error-message">
                             {{ $clockInError }}
