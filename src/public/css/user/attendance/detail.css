@@ -109,7 +109,6 @@
 .pending textarea {
     background: transparent;
     border: none;
-    pointer-events: none;
 }
 
 .correction-form__text {
@@ -148,7 +147,7 @@
 
 .correction-form__textarea.pending {
     height: clamp(14px, 3vw, 29px);
-    scrollbar-width: none;
+    overflow-y: auto;
 }
 
 .correction-form__button {

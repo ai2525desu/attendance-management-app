@@ -198,7 +198,14 @@ class AttendanceController extends Controller
 
         $breakIndex = $attendance->attendanceBreaks->count();
 
-        return view('user.attendance.detail', compact('user', 'attendance', 'amendmentApplication', 'applyingFixes', 'breakIndex'));
+        $errors = session('errors');
+        $clockInError = $errors?->first('correct_clock_in');
+        $clockOutError = $errors?->first('correct_clock_out');
+        if ($clockInError === $clockOutError) {
+            $clockOutError = null;
+        }
+
+        return view('user.attendance.detail', compact('user', 'attendance', 'amendmentApplication', 'applyingFixes', 'breakIndex', 'clockInError', 'clockOutError'));
     }
 
     // 一般ユーザーの修正申請
