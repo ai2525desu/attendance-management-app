@@ -196,7 +196,47 @@ class AttendanceController extends Controller
         $amendmentApplication = AttendanceCorrectRequest::with('attendanceBreakCorrects')->where('attendance_id', $attendance->id)->where('status', 'pending')->first();
         $applyingFixes = $amendmentApplication ? true : false;
 
-        $breakIndex = $attendance->attendanceBreaks->count();
+        $display = [
+            'correct_clock_in' => $applyingFixes ? optional($amendmentApplication->correct_clock_in)->format('H:i') : optional($attendance->clock_in)->format('H:i'),
+            'correct_clock_out' => $applyingFixes ? optional($amendmentApplication->correct_clock_out)->format('H:i') : optional($attendance->clock_out)->format('H:i'),
+        ];
+
+        $display['breaks'] = [];
+        // foreach ($attendance->attendanceBreaks as $index => $break) {
+        //     $correctBreak = $amendmentApplication?->attendanceBreakCorrects
+        //         ->where('break_id', $break->id)
+        //         ->first();
+        //     $display['breaks'][$index] = [
+        //         'start' => $applyingFixes ? optional($correctBreak)->correct_break_start?->format('H:i') : optional($break->break_start)->format('H:i'),
+        //         'end' => $applyingFixes ? optional($correctBreak)->correct_break_end?->format('H:i') : optional($break->break_end)->format('H:i'),
+        //     ];
+        // }
+
+        foreach ($attendance->attendanceBreaks as $index => $break) {
+            // 修正申請側の対応レコードを break_id で取得（なければ null）
+            $correctBreak = $amendmentApplication
+                ? $amendmentApplication->attendanceBreakCorrects->firstWhere('break_id', $break->id)
+                : null;
+
+            // 優先順：修正申請の値 -> 元の break の値 -> null
+            $rawStart = $correctBreak->correct_break_start ?? $break->break_start ?? null;
+            $rawEnd   = $correctBreak->correct_break_end   ?? $break->break_end   ?? null;
+
+            // 文字列でも Carbon にパースしてフォーマット（null はそのまま）
+            $start = $rawStart ? Carbon::parse($rawStart)->format('H:i') : null;
+            $end   = $rawEnd   ? Carbon::parse($rawEnd)->format('H:i')   : null;
+
+            $display['breaks'][$index] = [
+                'start' => $start,
+                'end'   => $end,
+            ];
+        }
+
+        $display['breaks'][] = [
+            'start' => null,
+            'end' => null,
+        ];
+
 
         $errors = session('errors');
         $clockInError = $errors?->first('correct_clock_in');
@@ -205,7 +245,7 @@ class AttendanceController extends Controller
             $clockOutError = null;
         }
 
-        return view('user.attendance.detail', compact('user', 'attendance', 'amendmentApplication', 'applyingFixes', 'breakIndex', 'clockInError', 'clockOutError'));
+        return view('user.attendance.detail', compact('user', 'attendance', 'amendmentApplication', 'applyingFixes', 'display', 'clockInError', 'clockOutError'));
     }
 
     // 一般ユーザーの修正申請
@@ -299,6 +339,6 @@ class AttendanceController extends Controller
         // }
         // return view('user.attendance.list', compact('daysInMonth', 'targetDate', 'previous', 'next'));
 
-        return view('admin.attendance.list', compact('targetDate', 'previous', 'next'));
+        return view('admin.attendance.list', compact('targetDate', 'previous', 'next', 'attendances'));
     }
 }

@@ -25,6 +25,8 @@ class AttendanceCorrectRequest extends Model
 
     protected $casts = [
         'request_date' => 'date',
+        'correct_clock_in' => 'datetime',
+        'correct_clock_out' => 'datetime',
     ];
 
     const STATUS = [

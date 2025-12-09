@@ -44,7 +44,7 @@
                     @foreach ($attendances as $attendance)
                     <tr class="monthly-attendance__item-line">
                         <td class="monthly-attendance__item">
-                            {{ $attendance->user->name }}
+                            {{ $attendances->user->name }}
                         </td>
                         <td class="monthly-attendance__item">
                             {{ $day['attendance'] ? $day['attendance']->clock_in->format('H:i') : '' }}
