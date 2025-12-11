@@ -68,8 +68,7 @@
             </tr>
             @foreach ($display['breaks'] as $index => $break)
             <tr class="correction-form__line">
-                <!-- <th class="correction-form__heading">休憩{{ $loop->first ? '' : $loop->iteration }}</th> -->
-                <th class="correction-form__heading">休憩{{ $index + 1}}</th>
+                <th class="correction-form__heading">休憩{{ $loop->first ? '' : $loop->iteration }}</th>
                 <td class="correction-form__item">
                     <div class="correction-form__item--information {{ $applyingFixes ? 'pending' : '' }}">
                         <input class="correction-form__input right" type="text" name="correct_break_start[{{ $index }}][start]" value="{{ old("correct_break_start.$index.start", $break['start']) }}" {{ $applyingFixes ? 'readonly' : '' }}>
@@ -91,28 +90,31 @@
                 </td>
             </tr>
             @endforeach
-            {{--<!-- <th class="correction-form__heading">休憩{{ $display['breaks'] ? count($display['breaks']) + 1 : 1 }}</th>
-            <th class="correction-form__heading">休憩{{ $breakIndex + 1 }}</th>
-            <td class="correction-form__item">
-                <div class="correction-form__item--information {{ $applyingFixes ? 'pending' : '' }}">
-                    <input class="correction-form__input right" type="text" name="correct_break_start[{{ $breakIndex }}][start]" value="{{ old("correct_break_start.$breakIndex.start", $display['breaks'][$breakIndex]['start']) }}" {{ $applyingFixes ? 'readonly' : '' }}>
-                    <span class="correction-form__text middle">~</span>
-                    <input class="correction-form__input left" type="text" name="correct_break_end[{{ $breakIndex }}][end]" value="{{ old("correct_break_end.$breakIndex.end", $display['breaks'][$breakIndex]['end']) }}" {{ $applyingFixes ? 'readonly' : '' }}>
-                </div>
-                <div class="correction-form__item--error">
-                    @error("correct_break_start.$breakIndex.start")
-                    <span class="error-message">
-                        {{ $message }}
-                    </span>
-                    @enderror
-                    @error("correct_break_end.$breakIndex.end")
-                    <span class="error-message">
-                        {{ $message }}
-                    </span>
-                    @enderror
-                </div>
-            </td>
-            </tr> -->--}}
+            <tr class="correction-form__line">
+                <!-- <th class="correction-form__heading">休憩{{ $display['breaks'] ? count($display['breaks']) + 1 : 1 }}</th> -->
+                <th class="correction-form__heading">休憩{{ $new + 1 }}</th>
+                <td class="correction-form__item">
+                    <div class="correction-form__item--information {{ $applyingFixes ? 'pending' : '' }}">
+                        <!-- <input class="correction-form__input right" type="text" name="correct_break_start[new][start]" value="{{ old('correct_break_start.new.start') }}" {{ $applyingFixes ? 'readonly' : '' }}> -->
+                        <input class="correction-form__input right" type="text" name="correct_break_start[{{ $new }}][start]" value="{{ old("correct_break_start.$new.start") }}" {{ $applyingFixes ? 'readonly' : '' }}>
+                        <span class="correction-form__text middle">~</span>
+                        <!-- <input class="correction-form__input left" type="text" name="correct_break_end[new][end]" value="{{ old('correct_break_end.new.end') }}" {{ $applyingFixes ? 'readonly' : '' }}> -->
+                        <input class="correction-form__input left" type="text" name="correct_break_end[{{ $new }}][end]" value="{{ old("correct_break_end.$new.end") }}" {{ $applyingFixes ? 'readonly' : '' }}>
+                    </div>
+                    <div class="correction-form__item--error">
+                        @error("correct_break_start.$new.start")
+                        <span class="error-message">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                        @error("correct_break_end.$new.end")
+                        <span class="error-message">
+                            {{ $message }}
+                        </span>
+                        @enderror
+                    </div>
+                </td>
+            </tr>
             <tr class="correction-form__line">
                 <th class="correction-form__heading">
                     備考

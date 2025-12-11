@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\AttendanceCorrectRequest;
+use App\Models\AttendanceBreak;
 
 class AttendanceBreakCorrect extends Model
 {
@@ -12,6 +13,7 @@ class AttendanceBreakCorrect extends Model
 
     protected $fillable = [
         'attendance_correct_request_id',
+        'attendance_break_id',
         'correct_break_start',
         'correct_break_end',
     ];
@@ -25,5 +27,10 @@ class AttendanceBreakCorrect extends Model
     public function attendanceCorrectRequest()
     {
         return $this->belongsTo(AttendanceCorrectRequest::class);
+    }
+
+    public function attendanceBreak()
+    {
+        return $this->belongsTo(AttendanceBreak::class);
     }
 }

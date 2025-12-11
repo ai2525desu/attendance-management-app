@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Attendance;
+use App\Models\AttendanceBreakCorrect;
 
 class AttendanceBreak extends Model
 {
@@ -24,5 +25,10 @@ class AttendanceBreak extends Model
     public function attendance()
     {
         return $this->belongsTo(Attendance::class);
+    }
+
+    public function attendanceBreakCorrect()
+    {
+        return $this->hasOne(AttendanceBreakCorrect::class);
     }
 }
