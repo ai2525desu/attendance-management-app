@@ -341,36 +341,7 @@ class AttendanceController extends Controller
         $targetDate = Carbon::parse($date);
         $previous = $targetDate->copy()->subDay()->format('Y-m-d');
         $next = $targetDate->copy()->addDay()->format('Y-m-d');
-
         $attendances = Attendance::with('user', 'attendancebreaks')->whereDate('work_date', $targetDate)->get();
-        // 下記は一般の勤怠一覧コントローラーより参照
-        // $startOfMonth = $targetDate->copy()->startOfMonth();
-        // $endOfMonth = $targetDate->copy()->endOfMonth();
-
-        // $attendances = Attendance::with('attendancebreaks')
-        //     ->where('user_id', $user->id)
-        //     ->whereBetween('work_date', [$startOfMonth->format('Y-m-d'), $endOfMonth->format('Y-m-d'),])
-        //     ->get()
-        //     ->keyBy(function ($workDate) {
-        //         return $workDate->work_date->format('Y-m-d');
-        //     });
-
-        // $daysInMonth = [];
-        // for ($day = 1; $day <= $targetDate->daysInMonth; $day++) {
-        //     $date = Carbon::create($year, $month, $day);
-        //     $attendance = $attendances->get($date->format('Y-m-d'));
-        //     $totalBreakFormat = $attendance ? $attendance->displayBreakTimeInHourFormat() : '';
-        //     $totalWorkingTimeFormat = $attendance ? $attendance->displayWorkingTimeInHourFormat() : '';
-
-        //     $daysInMonth[] = [
-        //         'date' => $date,
-        //         'attendance' => $attendance,
-        //         'total_break_format' => $totalBreakFormat,
-        //         'total_working_time_format' => $totalWorkingTimeFormat,
-        //     ];
-        // }
-        // return view('user.attendance.list', compact('daysInMonth', 'targetDate', 'previous', 'next'));
-
         return view('admin.attendance.list', compact('targetDate', 'previous', 'next', 'attendances'));
     }
 }

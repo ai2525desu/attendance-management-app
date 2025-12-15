@@ -45,6 +45,9 @@ class Attendance extends Model
     public function totalBreakTimeInMinutes()
     {
         return $this->attendanceBreaks->sum(function ($break) {
+            if (!$break->break_start || !$break->break_end) {
+                return 0;
+            }
             $breakStart = Carbon::parse($break->break_start);
             $breakEnd = Carbon::parse($break->break_end);
             return $breakEnd->diffInMinutes($breakStart);
@@ -54,10 +57,11 @@ class Attendance extends Model
     // 休憩時間をHH:MMの形式で表示
     public function displayBreakTimeInHourFormat()
     {
-        $minutes = $this->totalBreakTimeInMinutes();
-        $hours = floor($minutes / 60);
-        $mins = $minutes % 60;
-        return sprintf('%02d:%02d', $hours, $mins);
+        // $minutes = $this->totalBreakTimeInMinutes();
+        // $hours = floor($minutes / 60);
+        // $mins = $minutes % 60;
+        // return sprintf('%02d:%02d', $hours, $mins);
+        return gmdate('H:i', $this->totalBreakTimeInMinutes() * 60);
     }
 
     // 出勤から退勤までの勤務時間を分単位で合計
@@ -80,9 +84,10 @@ class Attendance extends Model
     // 実働時間をHH::MMの形式で表示
     public function displayWorkingTimeInHourFormat()
     {
-        $minutes = $this->totalActualWorkingTimeInMinutes();
-        $hours = floor($minutes / 60);
-        $mins = $minutes % 60;
-        return sprintf('%02d:%02d', $hours, $mins);
+        // $minutes = $this->totalActualWorkingTimeInMinutes();
+        // $hours = floor($minutes / 60);
+        // $mins = $minutes % 60;
+        // return sprintf('%02d:%02d', $hours, $mins);
+        return gmdate('H:i', $this->totalActualWorkingTimeInMinutes() * 60);
     }
 }

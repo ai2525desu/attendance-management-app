@@ -42,30 +42,28 @@
                 </thead>
                 <tbody>
                     @foreach ($attendances as $attendance)
-                    <tr class="monthly-attendance__item-line">
-                        <td class="monthly-attendance__item">
-                            {{ $attendances->user->name }}
+                    <tr class="day-attendance__item-line">
+                        <td class="day-attendance__item">
+                            {{ $attendance->user->name }}
                         </td>
-                        <td class="monthly-attendance__item">
-                            {{ $day['attendance'] ? $day['attendance']->clock_in->format('H:i') : '' }}
+                        <td class="day-attendance__item">
+                            {{ $attendance->clock_in->format('H:i') }}
                         </td>
-                        <td class="monthly-attendance__item">
-                            {{ $day['attendance'] ? $day['attendance']->clock_out->format('H:i') : '' }}
+                        <td class="day-attendance__item">
+                            {{ $attendance->clock_out->format('H:i') }}
                         </td>
-                        <td class="monthly-attendance__item">
-                            {{ $day['total_break_format']}}
+                        <td class="day-attendance__item">
+                            {{ $attendance->displayBreakTimeInHourFormat() }}
                         </td>
-                        <td class="monthly-attendance__item">
-                            {{ $day['total_working_time_format']}}
+                        <td class="day-attendance__item">
+                            {{ $attendance->displayWorkingTimeInHourFormat() }}
                         </td>
-                        <td class="monthly-attendance__item">
-                            @if ($day['attendance'])
-                            <a class="monthly-attendance__screen-transition" href="{{ route('user.attendance.detail', ['id' => $day['attendance']->id]) }}">
+                        <td class="day-attendance__item">
+                            <!-- href部分はルートなど確率してから記述すること -->
+                            {{-- href="{{ route('admin.attendance.detail', ['id' => $attendance->id]) }}" --}}
+                            <a class="day-attendance__screen-transition" href="">
                                 詳細
                             </a>
-                            @else
-                            <span class="monthly-attendance__screen-transition">詳細</span>
-                            @endif
                         </td>
                     </tr>
                     @endforeach
