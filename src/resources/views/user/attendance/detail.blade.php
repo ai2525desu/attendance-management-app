@@ -48,9 +48,9 @@
                 <th class="correction-form__heading">出勤・退勤</th>
                 <td class="correction-form__item">
                     <div class="correction-form__item--information {{ $applyingFixes ? 'pending' : '' }}">
-                        <input class="correction-form__input right" type="text" name="correct_clock_in" value="{{ $display['clock_in'] }}" {{ $applyingFixes ? 'readonly' : '' }}>
+                        <input class="correction-form__input right" type="text" name="correct_clock_in" value="{{ old('correct_clock_in', $display['clock_in']) }}" {{ $applyingFixes ? 'readonly' : '' }}>
                         <span class="correction-form__text middle">~</span>
-                        <input class="correction-form__input left" type="text" name="correct_clock_out" value="{{ $display['clock_out'] }}" {{ $applyingFixes ? 'readonly' : '' }}>
+                        <input class="correction-form__input left" type="text" name="correct_clock_out" value="{{ old('correct_clock_out', $display['clock_out']) }}" {{ $applyingFixes ? 'readonly' : '' }}>
                     </div>
                     <div class="correction-form__item--error">
                         @if ($clockInError)
@@ -71,9 +71,9 @@
                 <th class="correction-form__heading">休憩{{ $loop->first ? '' : $loop->iteration }}</th>
                 <td class="correction-form__item">
                     <div class="correction-form__item--information {{ $applyingFixes ? 'pending' : '' }}">
-                        <input class="correction-form__input right" type="text" name="correct_break_start[{{ $index }}][start]" value="{{ $break['start'] }}" {{ $applyingFixes ? 'readonly' : '' }}>
+                        <input class="correction-form__input right" type="text" name="correct_break_start[{{ $index }}][start]" value="{{ old("correct_break_start.$index.start", $break['start']) }}" {{ $applyingFixes ? 'readonly' : '' }}>
                         <span class="correction-form__text middle">~</span>
-                        <input class="correction-form__input left" type="text" name="correct_break_end[{{ $index }}][end]" value="{{ $break['end'] }}" {{ $applyingFixes ? 'readonly' : '' }}>
+                        <input class="correction-form__input left" type="text" name="correct_break_end[{{ $index }}][end]" value="{{ old("correct_break_end.$index.end" , $break['end']) }}" {{ $applyingFixes ? 'readonly' : '' }}>
                     </div>
                     <div class="correction-form__item--error">
                         @error("correct_break_start.$index.start")
@@ -91,14 +91,11 @@
             </tr>
             @endforeach
             <tr class="correction-form__line">
-                <!-- <th class="correction-form__heading">休憩{{ $display['breaks'] ? count($display['breaks']) + 1 : 1 }}</th> -->
                 <th class="correction-form__heading">休憩{{ $new + 1 }}</th>
                 <td class="correction-form__item">
                     <div class="correction-form__item--information {{ $applyingFixes ? 'pending' : '' }}">
-                        <!-- <input class="correction-form__input right" type="text" name="correct_break_start[new][start]" value="{{ old('correct_break_start.new.start') }}" {{ $applyingFixes ? 'readonly' : '' }}> -->
                         <input class="correction-form__input right" type="text" name="correct_break_start[{{ $new }}][start]" value="{{ old("correct_break_start.$new.start") }}" {{ $applyingFixes ? 'readonly' : '' }}>
                         <span class="correction-form__text middle">~</span>
-                        <!-- <input class="correction-form__input left" type="text" name="correct_break_end[new][end]" value="{{ old('correct_break_end.new.end') }}" {{ $applyingFixes ? 'readonly' : '' }}> -->
                         <input class="correction-form__input left" type="text" name="correct_break_end[{{ $new }}][end]" value="{{ old("correct_break_end.$new.end") }}" {{ $applyingFixes ? 'readonly' : '' }}>
                     </div>
                     <div class="correction-form__item--error">
