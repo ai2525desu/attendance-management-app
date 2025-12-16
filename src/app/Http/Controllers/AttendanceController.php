@@ -344,4 +344,11 @@ class AttendanceController extends Controller
         $attendances = Attendance::with('user', 'attendancebreaks')->whereDate('work_date', $targetDate)->get();
         return view('admin.attendance.list', compact('targetDate', 'previous', 'next', 'attendances'));
     }
+
+    public function editAdminDetail($id)
+    {
+        $attendance = Attendance::with('user', 'attendanceBreaks')->findOrFail($id);
+
+        return view('admin.attendance.detail', compact('attendance'));
+    }
 }

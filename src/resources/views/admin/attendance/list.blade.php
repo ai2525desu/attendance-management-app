@@ -60,9 +60,7 @@
                         {{ $attendance->displayWorkingTimeInHourFormat() }}
                     </td>
                     <td class="day-attendance__item">
-                        <!-- href部分はルートなど確率してから記述すること -->
-                        {{-- href="{{ route('admin.attendance.detail', ['id' => $attendance->id]) }}" --}}
-                        <a class="day-attendance__screen-transition" href="">
+                        <a class="day-attendance__screen-transition" href="{{ route('admin.attendance.detail', ['id' => $attendance->id]) }}">
                             詳細
                         </a>
                     </td>
