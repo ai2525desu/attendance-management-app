@@ -1,0 +1,129 @@
+.admin-attendance-list__content {
+    max-width: 1540px;
+    margin: 5rem auto;
+    width: 60%;
+    display: grid;
+    grid-template-rows: 40px auto auto;
+    gap: 2rem;
+}
+
+.admin-attendance-list__title {
+    grid-row: 1/2;
+    padding: 0 0 0 1rem;
+    border-left: 8px solid #000;
+    height: 40px;
+    font-size: clamp(20px, 2.5vw, 30px);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.admin-attendance-list__pagination {
+    grid-row: 2/3;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FFFFFF;
+    border-radius: 10px;
+    height: clamp(40px, 5vw, 60px);
+    padding: 10px 20px;
+}
+
+.pagination__day {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.pagination__day--title {
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    color: #737373;
+    letter-spacing: 0.15em;
+}
+
+
+.pagination__day--title.current-day {
+    font-weight: 700;
+    font-size: clamp(16px, 2vw, 20px);
+    color: #000000;
+    letter-spacing: normal;
+}
+
+.pagination__day--arrow {
+    opacity: 0.3;
+}
+
+.pagination__day--arrow.right-direction {
+    transform: scale(-1, 1);
+}
+
+.admin-attendance-list__day-attendance {
+    grid-row: 3/4;
+}
+
+.day-attendance__table {
+    width: 100%;
+    background: #FFFFFF;
+    border-radius: 10px;
+}
+
+.day-attendance__table-header {
+    border-bottom: 3px solid #E1E1E1;
+}
+
+.day-attendance__heading {
+    padding: 0.5rem 2rem;
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    color: #737373;
+    white-space: nowrap;
+    letter-spacing: 0.15em;
+}
+
+.day-attendance__item-line {
+    border-bottom: 2px solid #E1E1E1;
+}
+
+.day-attendance__item-line:last-child {
+    border-bottom: none;
+}
+
+.day-attendance__item {
+    padding: 0.5rem 2rem;
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    text-align: center;
+    color: #737373;
+    white-space: nowrap;
+    letter-spacing: 0.15em;
+}
+
+.day-attendance__screen-transition {
+    display: block;
+    appearance: none;
+    border: none;
+    text-decoration: none;
+    color: #000000;
+}
+
+@media screen and (max-width:850px) {
+    .admin-attendance-list__content {
+        width: 80%;
+    }
+
+    .day-attendance__heading {
+        padding: 0.5rem 1rem;
+    }
+
+    .day-attendance__item {
+        padding: 0.5rem 1rem;
+    }
+}

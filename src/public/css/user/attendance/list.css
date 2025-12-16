@@ -47,6 +47,7 @@
     font-weight: 700;
     font-size: clamp(12px, 2vw, 16px);
     color: #737373;
+    letter-spacing: 0.15em;
 }
 
 
@@ -54,10 +55,11 @@
     font-weight: 700;
     font-size: clamp(16px, 2vw, 20px);
     color: #000000;
+    letter-spacing: normal;
 }
 
 .pagination__month--arrow {
-    opacity: 70%;
+    opacity: 0.3;
 }
 
 .pagination__month--arrow.right-direction {
@@ -84,6 +86,7 @@
     font-size: clamp(12px, 2vw, 16px);
     color: #737373;
     white-space: nowrap;
+    letter-spacing: 0.15em;
 }
 
 .monthly-attendance__item-line {
@@ -101,7 +104,7 @@
     text-align: center;
     color: #737373;
     white-space: nowrap;
-    letter-spacing: 0.1rem;
+    letter-spacing: 0.15em;
 }
 
 .date-inner {
