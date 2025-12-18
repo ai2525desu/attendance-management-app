@@ -345,10 +345,152 @@ class AttendanceController extends Controller
         return view('admin.attendance.list', compact('targetDate', 'previous', 'next', 'attendances'));
     }
 
+    // 管理者の勤怠詳細画面表示
     public function editAdminDetail($id)
     {
+        // 修正前の勤怠データ
         $attendance = Attendance::with('user', 'attendanceBreaks')->findOrFail($id);
+        // 申請中の修正データ
+        $attendanceRequests = AttendanceCorrectRequest::with('user', 'attendanceBreakCorrects')->where('attendance_id', $id)->where('status', 'pending')->first();
 
-        return view('admin.attendance.detail', compact('attendance'));
+        // 修正申請があるかどうかのフラグ
+        $applyingFixes = $attendanceRequests ? true : false;
+
+        $amendmentApplication = $attendanceRequests;
+
+        $display['breaks'] = [];
+
+        // 申請前の情報を表示
+        if (!$applyingFixes) {
+
+            $display['clock_in'] = $attendance->clock_in ? Carbon::parse($attendance->clock_in)->format('H:i') : null;
+            $display['clock_out'] = $attendance->clock_out ? Carbon::parse($attendance->clock_out)->format('H:i') : null;
+
+            if (!$attendance->attendanceBreaks) {
+                $attendance->attendanceBreaks = [];
+            }
+
+            foreach ($attendance->attendanceBreaks as $key => $break) {
+                $start = $break->break_start ? Carbon::parse($break->break_start)->format('H:i') : null;
+                $end = $break->break_end ? Carbon::parse($break->break_end)->format('H:i') : null;
+
+                $display['breaks'][$key] = [
+                    'start' => $start,
+                    'end'   => $end,
+                ];
+            }
+            // 申請後の情報を表示
+        } else {
+
+            $display['clock_in'] = $attendanceRequests->correct_clock_in ? Carbon::parse($attendanceRequests->correct_clock_in)->format('H:i') : null;
+            $display['clock_out'] = $attendanceRequests->correct_clock_out ? Carbon::parse($attendanceRequests->correct_clock_out)->format('H:i') : null;
+
+            if (!$attendanceRequests->attendanceBreakCorrects) {
+                $attendanceRequests->attendanceBreakCorrects = [];
+            }
+
+            foreach ($attendanceRequests->attendanceBreakCorrects as $key => $break) {
+                $start = $break->correct_break_start ? Carbon::parse($break->correct_break_start)->format('H:i') : null;
+                $end = $break->correct_break_end ? Carbon::parse($break->correct_break_end)->format('H:i') : null;
+
+                $display['breaks'][$key] = [
+                    'start' => $start,
+                    'end'   => $end,
+                ];
+            }
+        }
+
+        $display['newIndex'] = count($display['breaks']);
+        $new = $display['newIndex'];
+
+        $errors = session('errors');
+        $clockInError = $errors?->first('correct_clock_in');
+        $clockOutError = $errors?->first('correct_clock_out');
+        if ($clockInError === $clockOutError) {
+            $clockOutError = null;
+        }
+
+        return view('admin.attendance.detail', compact('attendance', 'amendmentApplication', 'applyingFixes', 'display', 'new', 'clockInError', 'clockOutError'));
+    }
+
+    public function storeAdminCorrection(AttendanceCorrectionFormRequest $request)
+    {
+        DB::transaction(function () use ($request) {
+
+            $attendance = Attendance::with('user', 'attendanceBreaks')->findOrFail($request->attendance_id);
+
+            $exists = AttendanceCorrectRequest::with('user', 'attendanceBreakCorrects')->where('attendance_id', $attendance->id)->where('status', 'approved')->first();
+            if ($exists) {
+                return back()->with('message', 'すでに修正されています。');
+            }
+
+            // 出退勤のデータをCarbonに変換後、保存
+            $workDate = $request->work_date;
+            $inputClockIn = $request->correct_clock_in;
+            $inputClockOut = $request->correct_clock_out;
+
+            $convertedClockIn = $inputClockIn ? Carbon::parse("$workDate $inputClockIn")->format('Y-m-d H:i:s') : null;
+            $convertedClockOut = $inputClockOut ? Carbon::parse("$workDate $inputClockOut")->format('Y-m-d H:i:s') : null;
+
+            $attendanceCorrection = AttendanceCorrectRequest::create([
+                'user_id' => $attendance->user->id,
+                'attendance_id' => $attendance->id,
+                'request_date' => Carbon::now(),
+                'correct_clock_in' => $convertedClockIn,
+                'correct_clock_out' => $convertedClockOut,
+                'remarks' => $request->remarks,
+                'status' => 'approved',
+            ]);
+
+            $attendance->update([
+                'clock_in' => $convertedClockIn,
+                'clock_out' => $convertedClockOut,
+            ]);
+
+            // 休憩のデータをCarbonへの返還後に保存
+            $breakStarts = $request->correct_break_start ?? [];
+            $breakEnds = $request->correct_break_end ?? [];
+
+            foreach ($breakStarts as $key => $break) {
+                $startTime = $break['start'] ?? null;
+                $endTime = $breakEnds[$key]['end'] ?? null;
+
+                $start = $startTime ? Carbon::parse("$workDate $startTime")->format('Y-m-d H:i:s') : null;
+                $end = $endTime ? Carbon::parse("$workDate $endTime")->format('Y-m-d H:i:s') : null;
+
+                if (count($attendance->attendanceBreaks) <= $key) {
+                    // 新しい休憩を追加した処理
+                    AttendanceBreakCorrect::create([
+                        'attendance_correct_request_id' => $attendanceCorrection->id,
+                        'attendance_break_id' => null,
+                        'correct_break_start' => $start,
+                        'correct_break_end' => $end,
+                    ]);
+                } elseif (!$startTime && !$endTime) {
+                    // 休憩を削除した処理
+                    $attendanceBreakId = is_numeric($key) ? $attendance->attendanceBreaks[$key]->id : null;
+
+                    AttendanceBreakCorrect::create([
+                        'attendance_correct_request_id' => $attendanceCorrection->id,
+                        'attendance_break_id' => $attendanceBreakId,
+                        'correct_break_start' => null,
+                        'correct_break_end' => null,
+                    ]);
+                } else {
+                    // 既存の休憩を修正した処理
+                    $attendanceBreakId = is_numeric($key) ? $attendance->attendanceBreaks[$key]->id : null;
+
+                    AttendanceBreakCorrect::create([
+                        'attendance_correct_request_id' => $attendanceCorrection->id,
+                        'attendance_break_id' => $attendanceBreakId,
+                        'correct_break_start' => $start,
+                        'correct_break_end' => $end,
+                    ]);
+                }
+            }
+        });
+
+        // リダイレクト先未設定
+        return redirect()->route('')->with('success', '勤怠の修正を申請しました。');
     }
 }

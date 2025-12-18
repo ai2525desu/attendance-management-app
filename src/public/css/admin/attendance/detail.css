@@ -1,0 +1,195 @@
+.admin-attendance-detail__session-message {
+    font-weight: 700;
+    font-size: clamp(10px, 2vw, 18px);
+    background-color: #ff9;
+    color: #000000;
+    text-align: center;
+}
+
+.admin-attendance-detail__content {
+    max-width: 1540px;
+    margin: 5rem auto;
+    width: 60%;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 40px auto;
+    gap: 2rem;
+}
+
+.admin-attendance-detail__title {
+    grid-row: 1/2;
+    padding: 0 0 0 1rem;
+    border-left: 8px solid #000;
+    height: 40px;
+    font-size: clamp(20px, 2.5vw, 30px);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.admin-attendance-detail__correction-form {
+    grid-row: 2/3;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    border-radius: 10px;
+}
+
+.correction-form__table {
+    width: 100%;
+    height: clamp(300px, 70vw, 550px);
+    background: #FFFFFF;
+    border-radius: 10px;
+    letter-spacing: 0.1rem;
+}
+
+.correction-form__line {
+    border-bottom: 2px solid #E1E1E1;
+}
+
+.correction-form__line:last-child {
+    border-bottom: none;
+}
+
+.correction-form__line.pending {
+    display: none;
+}
+
+.correction-form__heading {
+    padding: 0.5rem 4rem;
+    text-align: left;
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    color: #737373;
+    white-space: nowrap;
+}
+
+.correction-form__item {
+    padding: 0.5rem 4rem;
+    text-align: left;
+}
+
+.correction-form__item--information {
+    width: 80%;
+    display: grid;
+    grid-template-columns: calc(100% / 3) calc(100% / 3) calc(100% / 3);
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+}
+
+.error-message {
+    display: block;
+    margin-top: 0.25rem;
+    font-weight: 400;
+    font-style: normal;
+    font-size: clamp(8px, 2vw, 12px);
+    color: #FF000080;
+}
+
+.correction-form__item--error,
+.correction-form__item--remark {
+    width: 80%;
+}
+
+.right {
+    grid-column: 1/2;
+}
+
+.middle {
+    grid-column: 2/3;
+}
+
+.left {
+    grid-column: 3/4;
+}
+
+.pending input,
+.pending textarea {
+    background: transparent;
+    border: none;
+}
+
+.correction-form__text {
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    color: #000000;
+}
+
+.correction-form__input {
+    position: relative;
+    width: clamp(50px, 8vw, 100px);
+    height: clamp(14px, 3vw, 29px);
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    color: #000000;
+    text-align: center;
+    outline: none;
+    border-radius: 4px;
+    border: 1px solid #E1E1E1;
+    letter-spacing: 0.1rem;
+}
+
+.correction-form__textarea {
+    width: 100%;
+    height: clamp(36px, 6vw, 72px);
+    padding: 0.5rem 1rem;
+    font-weight: 700;
+    color: #000000;
+    font-size: clamp(10px, 2vw, 14px);
+    outline: none;
+    border-radius: 4px;
+    border: 1px solid #E1E1E1;
+    resize: none;
+    letter-spacing: 0.1rem;
+}
+
+.correction-form__textarea.pending {
+    height: clamp(14px, 3vw, 29px);
+    overflow-y: auto;
+}
+
+.correction-form__button {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    text-align: center;
+}
+
+.correction-form__button--submit {
+    appearance: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 0;
+    width: 20%;
+    height: clamp(25px, 4vw, 50px);
+    background: #000000;
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 22px);
+    color: #FFFFFF;
+    white-space: nowrap;
+}
+
+.correction-form__button--none {
+    font-weight: 800;
+    font-size: clamp(10px, 2vw, 18px);
+    color: #FF0000;
+    letter-spacing: 0.1em;
+    opacity: 50%;
+}
+
+@media screen and (max-width:850px) {
+    .user-attendance-detail__content {
+        width: 80%;
+    }
+
+    .correction-form__heading {
+        padding: 0.5rem 1rem;
+    }
+
+    .correction-form__item {
+        padding: 0.5rem 1rem;
+    }
+}

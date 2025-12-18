@@ -51,6 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/attendance/detail/{id}', [AttendanceController::class, 'editDetail'])->name('user.attendance.detail');
     Route::post('/attendance/detail/{id}', [AttendanceController::class, 'storeCorrection'])->name('user.attendance.storeCorrection');
 
+    // ここは管理者と同一パスにする必要あり
+    // 認証ミドルウェアで区別すること
     Route::get('/stamp_correction_request/list', [AttendanceCorrectionController::class, 'indexCorrection'])->name('user.stamp_correction_request.list');
 });
 
@@ -63,8 +65,11 @@ Route::middleware('auth:admin')->group(function () {
 
     Route::get('/admin/attendance/list', [AttendanceController::class, 'indexAdmin'])->name('admin.attendance.list');
     Route::get('/admin/attendance/{id}', [AttendanceController::class, 'editAdminDetail'])->name('admin.attendance.detail');
+    Route::post('/admin/attendance/{id}', [AttendanceController::class, 'storeAdminCorrection'])->name('admin.attendance.storeCorrection');
 
     Route::get('/admin/staff/list', [StaffAttendanceController::class, 'indexStaffList'])->name('admin.staff.list');
 
+    // ここは一般ユーザーと同一パスにする必要あり
+    // /adminは削除で、認証ミドルウェアで区別すること
     Route::get('/admin/stamp_correction_request/list', [AttendanceCorrectionController::class, 'indexAdminCorrection'])->name('admin.stamp_correction_request.list');
 });
