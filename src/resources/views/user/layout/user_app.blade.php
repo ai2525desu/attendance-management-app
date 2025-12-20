@@ -40,7 +40,7 @@
                                     <a class="screen-transition" href="{{ route('user.attendance.list') }}">勤怠一覧</a>
                                 </li>
                                 <li class="nav__item">
-                                    <a class="screen-transition" href="{{ route('user.stamp_correction_request.list') }}">申請</a>
+                                    <a class="screen-transition" href="{{ route('stamp_correction_request.list') }}">申請</a>
                                 </li>
                                 <li class="nav__item">
                                     <form class="logout-button" method="post" action="/logout">

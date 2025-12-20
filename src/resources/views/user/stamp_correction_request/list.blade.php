@@ -19,10 +19,10 @@
         <div class="correction-tab__header">
             <ul class="correction-tab__header-inner">
                 <li class="correction-tab__item">
-                    <a class="item__pending-list {{ $tab === 'pending' ? 'is-active' : '' }}" href="{{ route('user.stamp_correction_request.list', ['tab' => 'pending']) }}">承認待ち</a>
+                    <a class="item__pending-list {{ $tab === 'pending' ? 'is-active' : '' }}" href="{{ route('stamp_correction_request.list', ['tab' => 'pending']) }}">承認待ち</a>
                 </li>
                 <li class="correction-tab__item">
-                    <a class="item__approved-list {{ $tab === 'approved' ? 'is-active' : '' }}" href="{{ route('user.stamp_correction_request.list', ['tab' => 'approved']) }}">承認済み</a>
+                    <a class="item__approved-list {{ $tab === 'approved' ? 'is-active' : '' }}" href="{{ route('stamp_correction_request.list', ['tab' => 'approved']) }}">承認済み</a>
                 </li>
             </ul>
         </div>

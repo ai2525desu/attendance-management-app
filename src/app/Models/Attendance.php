@@ -33,7 +33,7 @@ class Attendance extends Model
 
     public function attendanceBreaks()
     {
-        return $this->hasMany(AttendanceBreak::class);
+        return $this->hasMany(AttendanceBreak::class)->orderBy('break_start');
     }
 
     public function attendanceCorrectRequest()

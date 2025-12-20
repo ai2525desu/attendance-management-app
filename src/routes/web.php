@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 // 一般ユーザー関連
 Route::get('/login', [AuthController::class, 'login'])->name('user.auth.login');
 Route::post('/login', [AuthController::class, 'authenticate']);
@@ -37,7 +36,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return redirect()->route('user.attendance.registration');
 })->middleware(['auth:web', 'signed'])->name('verification.verify');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth:web')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::get('/attendance', [AttendanceController::class, 'create'])->name('user.attendance.registration');
@@ -51,9 +50,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/attendance/detail/{id}', [AttendanceController::class, 'editDetail'])->name('user.attendance.detail');
     Route::post('/attendance/detail/{id}', [AttendanceController::class, 'storeCorrection'])->name('user.attendance.storeCorrection');
 
-    // ここは管理者と同一パスにする必要あり
-    // 認証ミドルウェアで区別すること
-    Route::get('/stamp_correction_request/list', [AttendanceCorrectionController::class, 'indexCorrection'])->name('user.stamp_correction_request.list');
+    // 申請一覧画面（一般ユーザー）
+    // 管理者画面と同一URLを使用し、認証ミドルウェアで表示を切り替える（基本設計書準拠）
+    Route::get('/stamp_correction_request/list', [AttendanceCorrectionController::class, 'indexCorrection'])->name('stamp_correction_request.list');
 });
 
 // 管理者関連
@@ -69,7 +68,7 @@ Route::middleware('auth:admin')->group(function () {
 
     Route::get('/admin/staff/list', [StaffAttendanceController::class, 'indexStaffList'])->name('admin.staff.list');
 
-    // ここは一般ユーザーと同一パスにする必要あり
-    // /adminは削除で、認証ミドルウェアで区別すること
-    Route::get('/admin/stamp_correction_request/list', [AttendanceCorrectionController::class, 'indexAdminCorrection'])->name('admin.stamp_correction_request.list');
+    // 申請一覧画面（管理者）
+    // 一般ユーザー画面と同一URLを使用し、認証ミドルウェアで表示を切り替える（基本設計書準拠）
+    Route::get('/stamp_correction_request/list', [AttendanceCorrectionController::class, 'indexCorrection'])->name('stamp_correction_request.list');
 });

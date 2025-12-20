@@ -40,7 +40,7 @@
                                     <a class="screen-transition" href="{{ route('admin.staff.list') }}">スタッフ一覧</a>
                                 </li>
                                 <li class="nav__item">
-                                    <a class="screen-transition" href="{{ route('admin.stamp_correction_request.list') }}">申請一覧</a>
+                                    <a class="screen-transition" href="{{ route('stamp_correction_request.list') }}">申請一覧</a>
                                 </li>
                                 <li class="nav__item">
                                     <form class="logout-button" method="post" action="/admin/logout">
