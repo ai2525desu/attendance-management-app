@@ -135,8 +135,7 @@ class AttendanceController extends Controller
             return redirect()->route('user.attendance.registration')->with('errorMessage', '本日の出勤記録がありません。');
         }
 
-        $attendanceBreak = $hasTodayAttendance->attendanceBreaks()->latest('break_start')->first();
-        // 対策：latestの部分をwhereNull('break_end')に変更
+        $attendanceBreak = $hasTodayAttendance->attendanceBreaks()->whereNull('break_end')->latest('break_start')->first();
         if (!$attendanceBreak || $attendanceBreak->break_end) {
             return redirect()->route('user.attendance.registration')->with('errorMessage', '開始済みの休憩記録が見つかりません。');
         }
@@ -267,7 +266,7 @@ class AttendanceController extends Controller
 
             $exists = AttendanceCorrectRequest::with('attendanceBreakCorrects')->where('attendance_id', $attendance->id)->where('status', 'pending')->first();
             if ($exists) {
-                return back()->with('message', 'すでに修正申請されています。');
+                throw new \RuntimeException('すでに修正されています。');
             }
 
             // 出退勤のデータをCarbonに変換後、保存
@@ -425,7 +424,7 @@ class AttendanceController extends Controller
 
             $exists = AttendanceCorrectRequest::with('user', 'attendanceBreakCorrects')->where('attendance_id', $attendance->id)->where('status', 'approved')->first();
             if ($exists) {
-                return back()->with('message', 'すでに修正されています。');
+                throw new \RuntimeException('すでに修正されています。');
             }
 
             // 出退勤のデータをCarbonに変換後、保存

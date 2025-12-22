@@ -11,13 +11,10 @@ class AttendanceCorrectionController extends Controller
     // 一般ユーザーと管理者共通の申請一覧画面表示
     public function indexCorrection(Request $request)
     {
-        if (Auth::guard('admin')->check()) {
-            return $this->adminCorrectionList($request);
-        } elseif (Auth::guard('web')->check()) {
-            return $this->userCorrectionList($request);
-        } else {
-            abort(403);
-        }
+        return match ($request->get('role')) {
+            'admin' => $this->adminCorrectionList($request),
+            'user' => $this->userCorrectionList($request),
+        };
     }
 
     // 一般ユーザーの申請一覧画面表示
