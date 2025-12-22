@@ -36,7 +36,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $requ
     return redirect()->route('user.attendance.registration');
 })->middleware(['auth:web', 'signed'])->name('verification.verify');
 
-Route::middleware('auth:web')->group(function () {
+Route::middleware('auth:web', 'verified')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     Route::get('/attendance', [AttendanceController::class, 'create'])->name('user.attendance.registration');
