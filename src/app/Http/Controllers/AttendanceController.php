@@ -331,7 +331,7 @@ class AttendanceController extends Controller
             }
         });
 
-        return redirect()->route('user.stamp_correction_request.list')->with('success', '勤怠の修正を申請しました。');
+        return redirect()->route('stamp_correction_request.list')->with('success', '勤怠の修正を申請しました。');
     }
 
     // 管理者の勤怠一覧画面表示

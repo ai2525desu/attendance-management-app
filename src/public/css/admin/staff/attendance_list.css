@@ -1,0 +1,163 @@
+.staff-attendance-list__content {
+    max-width: 1540px;
+    margin: 5rem auto;
+    width: 60%;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 40px auto auto 50px;
+    gap: 3rem;
+}
+
+.staff-attendance-list__title {
+    grid-row: 1/2;
+    padding: 0 0 0 1rem;
+    border-left: 8px solid #000;
+    height: 40px;
+    font-size: clamp(20px, 2.5vw, 30px);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.staff-attendance-list__pagination {
+    grid-row: 2/3;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FFFFFF;
+    border-radius: 10px;
+    height: clamp(40px, 5vw, 60px);
+    padding: 10px 20px;
+}
+
+.pagination__month {
+    appearance: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.pagination__month--title {
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    color: #737373;
+    letter-spacing: 0.15em;
+}
+
+
+.pagination__month--title.current-month {
+    font-weight: 700;
+    font-size: clamp(16px, 2vw, 20px);
+    color: #000000;
+    letter-spacing: normal;
+}
+
+.pagination__month--arrow {
+    opacity: 0.3;
+}
+
+.pagination__month--arrow.right-direction {
+    transform: scale(-1, 1);
+}
+
+.staff-attendance-list__monthly-attendance {
+    grid-row: 3/4;
+}
+
+.monthly-attendance__table {
+    width: 100%;
+    background: #FFFFFF;
+    border-radius: 10px;
+}
+
+.monthly-attendance__table-header {
+    border-bottom: 3px solid #E1E1E1;
+}
+
+.monthly-attendance__heading {
+    padding: 0.5rem 2rem;
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    color: #737373;
+    white-space: nowrap;
+    letter-spacing: 0.15em;
+}
+
+.monthly-attendance__item-line {
+    border-bottom: 2px solid #E1E1E1;
+}
+
+.monthly-attendance__item-line:last-child {
+    border-bottom: none;
+}
+
+.monthly-attendance__item {
+    padding: 0.5rem 2rem;
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    text-align: center;
+    color: #737373;
+    white-space: nowrap;
+    letter-spacing: 0.15em;
+    vertical-align: middle;
+    line-height: 1.5;
+}
+
+.date-inner {
+    display: inline-block;
+    width: 70%;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.monthly-attendance__screen-transition {
+    display: inline-block;
+    appearance: none;
+    border: none;
+    text-decoration: none;
+    color: #000000;
+}
+
+.staff-attendance-list__csv-output-form {
+    grid-row: 4/5;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    text-align: center;
+}
+
+.csv-output-form__button {
+    appearance: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 0 2rem;
+    width: 100%;
+    height: clamp(25px, 4vw, 50px);
+    background: #000000;
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 22px);
+    color: #FFFFFF;
+    white-space: nowrap;
+    letter-spacing: 0.1em;
+}
+
+@media screen and (max-width:850px) {
+    .staff-attendance-list__content {
+        width: 80%;
+    }
+
+    .monthly-attendance__heading {
+        padding: 0.5rem 1rem;
+    }
+
+    .monthly-attendance__item {
+        padding: 0.5rem 1rem;
+    }
+}
