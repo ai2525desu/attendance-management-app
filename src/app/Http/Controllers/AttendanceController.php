@@ -96,7 +96,6 @@ class AttendanceController extends Controller
         $user = Auth::user();
         $dateTime = Carbon::now();
 
-
         $hasTodayAttendance = Attendance::where('user_id', $user->id)
             ->whereDate('work_date', Carbon::today())
             ->whereNotNull('clock_in')
@@ -137,6 +136,7 @@ class AttendanceController extends Controller
         }
 
         $attendanceBreak = $hasTodayAttendance->attendanceBreaks()->latest('break_start')->first();
+        // 対策：latestの部分をwhereNull('break_end')に変更
         if (!$attendanceBreak || $attendanceBreak->break_end) {
             return redirect()->route('user.attendance.registration')->with('errorMessage', '開始済みの休憩記録が見つかりません。');
         }
@@ -301,6 +301,9 @@ class AttendanceController extends Controller
 
                 if (count($attendance->attendanceBreaks) <= $key) {
                     // 新しい休憩を追加した処理
+                    if (!$startTime && !$endTime) {
+                        continue;
+                    }
                     AttendanceBreakCorrect::create([
                         'attendance_correct_request_id' => $attendanceCorrection->id,
                         'attendance_break_id' => null,
@@ -461,6 +464,9 @@ class AttendanceController extends Controller
 
                 if (count($attendance->attendanceBreaks) <= $key) {
                     // 新しい休憩を追加した処理
+                    if (!$startTime && !$endTime) {
+                        continue;
+                    }
                     $attendance->attendanceBreaks()->create([
                         'break_start' => $start,
                         'break_end' => $end,

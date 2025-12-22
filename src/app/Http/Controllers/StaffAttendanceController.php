@@ -79,7 +79,7 @@ class StaffAttendanceController extends Controller
         $csvData = [];
         $csvData[] = ['ユーザー名', $user->name];
         $csvData[] = ['月次勤怠', $targetDate->format('Y/m')];
-        $csvData[] = ['日付', '出勤', '退勤', '休憩', '合計', '詳細',];
+        $csvData[] = ['日付', '出勤', '退勤', '休憩', '合計',];
 
         for ($day = 1; $day <= $targetDate->daysInMonth; $day++) {
             $date = Carbon::create($year, $month, $day);
@@ -91,7 +91,6 @@ class StaffAttendanceController extends Controller
                 $attendance ? optional($attendance->clock_out)->format('H:i') : '',
                 $attendance ? $attendance->displayBreakTimeInHourFormat() : '',
                 $attendance ? $attendance->displayWorkingTimeInHourFormat() : '',
-                $attendance ? route('admin.attendance.detail', ['id' => $attendance->id]) : '',
             ];
         }
 
