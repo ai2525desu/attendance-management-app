@@ -1,0 +1,146 @@
+.admin-corection-list__session-message {
+    font-weight: 700;
+    font-size: clamp(10px, 2vw, 18px);
+    background-color: #ff9;
+    color: #000000;
+    text-align: center;
+}
+
+.admin-corection-list__content {
+    max-width: 1540px;
+    margin: 5rem auto;
+    width: 60%;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 40px auto auto;
+    gap: 2rem;
+}
+
+.admin-corection-list__title {
+    grid-row: 1/2;
+    padding: 0 0 0 1rem;
+    border-left: 8px solid #000;
+    height: 40px;
+    font-size: clamp(20px, 2.5vw, 30px);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.admin-corection-list__tab {
+    grid-row: 2/3;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    border-radius: 10px;
+}
+
+.correction-tab__header {
+    border-bottom: 1px solid #000000;
+}
+
+.correction-tab__header-inner {
+    width: 50%;
+    margin: 0;
+    padding: 10px 0;
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    font-size: 400;
+    font-size: clamp(12px, 2vw, 16px);
+}
+
+.correction-tab__item {
+    list-style: none;
+    padding-left: 0;
+    cursor: pointer;
+}
+
+.item__pending-list,
+.item__approved-list {
+    text-decoration: none;
+    color: #000000;
+}
+
+.item__pending-list.is-active,
+.item__approved-list.is-active {
+    text-decoration: none;
+    font-weight: 700;
+    color: #000000;
+}
+
+.correction-tab__body {
+    width: 100%;
+}
+
+.correction-tab__table {
+    display: none;
+}
+
+.correction-tab__table.is-active {
+    display: table;
+    width: 100%;
+    background: #FFFFFF;
+    border-radius: 10px;
+    text-align: left;
+    letter-spacing: 0.1rem;
+}
+
+.correction-tab__table-header {
+    border-bottom: 3px solid #E1E1E1;
+}
+
+.correction-tab__table-heading {
+    padding: 0.5rem 2rem;
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    color: #737373;
+    white-space: nowrap;
+}
+
+.correction-tab__table-information-line {
+    border-bottom: 2px solid #E1E1E1;
+}
+
+.correction-tab__table-information-line:last-child {
+    border-bottom: none;
+}
+
+.correction-tab__table-information {
+    padding: 0.5rem 2rem;
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    text-align: center;
+    color: #737373;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.table-information__remarks {
+    max-height: 50px;
+    overflow-y: auto;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.correction-tab__screen-transition {
+    appearance: none;
+    border: none;
+    text-decoration: none;
+    color: #000000;
+}
+
+@media screen and (max-width:850px) {
+    .user-corection-list__content {
+        width: 80%;
+    }
+
+    .correction-tab__heading {
+        padding: 0.5rem 1rem;
+    }
+
+    .orrection-tab__information {
+        padding: 0.5rem 1rem;
+    }
+}

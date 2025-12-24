@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AttendanceCorrectRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,6 +41,19 @@ class AttendanceCorrectionController extends Controller
     // 管理者の申請一覧画面表示
     private function adminCorrectionList(Request $request)
     {
-        return view('admin.stamp_correction_request.list');
+        $tab = $request->query('tab', 'pending');
+
+        $statusMap = [
+            'pending' => 'pending',
+            'approved' => 'approved',
+        ];
+
+        $status = $statusMap[$tab] ?? 'pending';
+        $corrections = AttendanceCorrectRequest::with('attendance')->where('status', $status)->where('edited_by_admin', false)->orderBy('created_at', 'asc')->get();
+        $corrections->each(function ($correction) {
+            $correction->status_text = AttendanceCorrectRequest::STATUS[$correction->status];
+        });
+
+        return view('admin.stamp_correction_request.list', compact('tab', 'corrections',));
     }
 }
