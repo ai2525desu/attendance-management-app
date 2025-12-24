@@ -29,8 +29,7 @@ class AttendanceCorrectionController extends Controller
         ];
 
         $status = $statusMap[$tab] ?? 'pending';
-        $corrections = AttendanceCorrectRequest::with('attendance')->where('user_id', $user->id)->where('status', $status)->orderBy('created_at', 'desc')
-            ->get();
+        $corrections = AttendanceCorrectRequest::with('attendance')->where('user_id', $user->id)->where('status', $status)->where('edited_by_admin', false)->orderBy('created_at', 'desc')->get();
         $corrections->each(function ($correction) {
             $correction->status_text = AttendanceCorrectRequest::STATUS[$correction->status];
         });

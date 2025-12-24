@@ -21,6 +21,7 @@ class AttendanceCorrectRequest extends Model
         'correct_clock_out',
         'remarks',
         'status',
+        'edited_by_admin',
     ];
 
     protected $casts = [

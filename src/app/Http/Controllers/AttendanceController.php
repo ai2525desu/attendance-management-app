@@ -194,7 +194,7 @@ class AttendanceController extends Controller
         // 修正前の勤怠データ
         $attendance = Attendance::with('attendanceBreaks')->findOrFail($id);
         // 申請中の修正データ
-        $attendanceRequests = AttendanceCorrectRequest::with('attendanceBreakCorrects')->where('attendance_id', $id)->where('status', 'pending')->first();
+        $attendanceRequests = AttendanceCorrectRequest::with('attendanceBreakCorrects')->where('attendance_id', $id)->where('status', 'pending')->where('edited_by_admin', false)->first();
 
         // 修正申請があるかどうかのフラグ
         $applyingFixes = $attendanceRequests ? true : false;
@@ -264,7 +264,7 @@ class AttendanceController extends Controller
             $user = Auth::user();
             $attendance = Attendance::with('attendanceBreaks')->findOrFail($request->attendance_id);
 
-            $exists = AttendanceCorrectRequest::with('attendanceBreakCorrects')->where('attendance_id', $attendance->id)->where('status', 'pending')->first();
+            $exists = AttendanceCorrectRequest::with('attendanceBreakCorrects')->where('attendance_id', $attendance->id)->where('status', 'pending')->where('edited_by_admin', false)->first();
             if ($exists) {
                 throw new \RuntimeException('すでに修正されています。');
             }
@@ -285,6 +285,7 @@ class AttendanceController extends Controller
                 'correct_clock_out' => $convertedClockOut,
                 'remarks' => $request->remarks,
                 'status' => 'pending',
+                'edited_by_admin' => false,
             ]);
 
             // 休憩のデータをCarbonへの返還後に保存
@@ -352,8 +353,8 @@ class AttendanceController extends Controller
     {
         // 修正前の勤怠データ
         $attendance = Attendance::with('user', 'attendanceBreaks')->findOrFail($id);
-        // 申請中の修正データ
-        $attendanceRequests = AttendanceCorrectRequest::with('user', 'attendanceBreakCorrects')->where('attendance_id', $id)->where('status', 'pending')->first();
+        // 一般ユーザーが申請中の修正データ
+        $attendanceRequests = AttendanceCorrectRequest::with('user', 'attendanceBreakCorrects')->where('attendance_id', $id)->where('status', 'pending')->where('edited_by_admin', false)->first();
 
         // 修正申請があるかどうかのフラグ
         $applyingFixes = $attendanceRequests ? true : false;
@@ -443,6 +444,7 @@ class AttendanceController extends Controller
                 'correct_clock_out' => $convertedClockOut,
                 'remarks' => $request->remarks,
                 'status' => 'approved',
+                'edited_by_admin' => true,
             ]);
 
             $attendance->update([

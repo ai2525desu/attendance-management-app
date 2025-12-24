@@ -22,6 +22,7 @@ class CreateAttendanceCorrectRequestsTable extends Migration
             $table->datetime('correct_clock_out')->nullable();
             $table->text('remarks');
             $table->enum('status', ['pending', 'approved']);
+            $table->boolean('edited_by_admin')->default(false)->comment('true:管理者直接修正, false:一般ユーザー申請');
             $table->timestamps();
         });
     }
