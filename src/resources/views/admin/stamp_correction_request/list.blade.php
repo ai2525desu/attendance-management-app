@@ -65,8 +65,7 @@
                             {{ $correction->request_date->isoFormat('YYYY/MM/DD') }}
                         </td>
                         <td class="correction-tab__table-information">
-                            <!-- ここは承認のための申請詳細画面に遷移、href後述すること -->
-                            <a class="correction-tab__screen-transition" href="">
+                            <a class="correction-tab__screen-transition" href="{{ route('admin.stamp_correction_request.approval', ['attendance_correct_request_id' => $correction->id]) }}">
                                 詳細
                             </a>
                         </td>
@@ -116,8 +115,7 @@
                             {{ $correction->request_date->isoFormat('YYYY/MM/DD') }}
                         </td>
                         <td class="correction-tab__table-information">
-                            <!-- ここは承認のための申請詳細画面に遷移、href後述すること -->
-                            <a class="correction-tab__screen-transition" href="">
+                            <a class="correction-tab__screen-transition" ref="{{ route('admin.stamp_correction_request.approval', ['attendance_correct_request_id' => $correction->id]) }}">
                                 詳細
                             </a>
                         </td>

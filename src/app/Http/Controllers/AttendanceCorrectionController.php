@@ -56,4 +56,12 @@ class AttendanceCorrectionController extends Controller
 
         return view('admin.stamp_correction_request.list', compact('tab', 'corrections',));
     }
+
+    // 管理者の修正申請承認画面
+    public function showApproval($attendance_correct_request_id)
+    {
+        $attendanceRequest = AttendanceCorrectRequest::with('user', 'attendance', 'attendanceBreakCorrects')->where('id', $attendance_correct_request_id)->where('status', 'pending')->where('edited_by_admin', false)->first();
+
+        return view('admin.stamp_correction_request.approval', compact('attendanceRequest'));
+    }
 }

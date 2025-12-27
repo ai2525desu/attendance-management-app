@@ -65,6 +65,8 @@ Route::middleware('auth:admin')->group(function () {
     Route::get('/admin/staff/list', [StaffAttendanceController::class, 'indexStaffList'])->name('admin.staff.list');
     Route::get('/admin/attendance/staff/{id}', [StaffAttendanceController::class, 'indexStaffAttendanceList'])->name('admin.staff.attendance_list');
     Route::post('/admin/attendance/staff/{id}/csv', [StaffAttendanceController::class, 'exportCsv'])->name('admin.staff.attendance_list.csv');
+
+    Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}', [AttendanceCorrectionController::class, 'showApproval'])->name('admin.stamp_correction_request.approval');
 });
 
 // 管理者画面と同一URLを使用し、認証ミドルウェアで表示を切り替える（基本設計書準拠）
