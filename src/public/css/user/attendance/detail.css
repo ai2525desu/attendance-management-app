@@ -146,8 +146,8 @@
 }
 
 .correction-form__textarea.pending {
-    height: clamp(14px, 3vw, 29px);
-    overflow-y: auto;
+    line-height: clamp(36px, 6vw, 72px);
+    overflow-y: hidden;
 }
 
 .correction-form__button {

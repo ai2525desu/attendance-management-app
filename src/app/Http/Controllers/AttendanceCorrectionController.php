@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AttendanceCorrectRequest;
-use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -62,6 +62,23 @@ class AttendanceCorrectionController extends Controller
     {
         $attendanceRequest = AttendanceCorrectRequest::with('user', 'attendance', 'attendanceBreakCorrects')->where('id', $attendance_correct_request_id)->where('status', 'pending')->where('edited_by_admin', false)->first();
 
-        return view('admin.stamp_correction_request.approval', compact('attendanceRequest'));
+        $display['correct_clock_in'] = $attendanceRequest->correct_clock_in ? Carbon::parse($attendanceRequest->correct_clock_in)->format('H:i') : null;
+        $display['correct_clock_out'] = $attendanceRequest->correct_clock_out ? Carbon::parse($attendanceRequest->correct_clock_out)->format('H:i') : null;
+
+        $display['correct_breaks'] = [];
+        foreach ($attendanceRequest->attendanceBreakCorrects as $key => $break) {
+            $start = $break->correct_break_start ? Carbon::parse($break->correct_break_start)->format('H:i') : null;
+            $end = $break->correct_break_end ? Carbon::parse($break->correct_break_end)->format('H:i') : null;
+
+            $display['correct_breaks'][$key] = [
+                'start' => $start,
+                'end'   => $end,
+            ];
+        }
+
+        $display['newIndex'] = count($display['correct_breaks']);
+        $new = $display['newIndex'];
+
+        return view('admin.stamp_correction_request.approval', compact('attendanceRequest', 'display', 'new'));
     }
 }

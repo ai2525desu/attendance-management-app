@@ -138,7 +138,7 @@
                 </button>
             </div>
             @else
-            <div class="correction-form__button ">
+            <div class="correction-form__button">
                 <span class="correction-form__button--none">
                     *承認待ちのため修正はできません。
                 </span>

@@ -1,0 +1,158 @@
+.admin-amendment-approval-screen__content {
+    max-width: 1540px;
+    margin: 5rem auto;
+    width: 60%;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 40px auto;
+    gap: 2rem;
+}
+
+.admin-amendment-approval-screen__title {
+    grid-row: 1/2;
+    padding: 0 0 0 1rem;
+    border-left: 8px solid #000;
+    height: 40px;
+    font-size: clamp(20px, 2.5vw, 30px);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+.admin-amendment-approval-screen__approved-form {
+    grid-row: 2/3;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    border-radius: 10px;
+}
+
+.approved-form__table {
+    width: 100%;
+    height: clamp(300px, 70vw, 550px);
+    background: #FFFFFF;
+    border-radius: 10px;
+    letter-spacing: 0.1rem;
+}
+
+.approved-form__line {
+    border-bottom: 2px solid #E1E1E1;
+}
+
+.approved-form__line:last-child {
+    border-bottom: none;
+}
+
+.approved-form__heading {
+    padding: 0.5rem 4rem;
+    text-align: left;
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    color: #737373;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.approved-form__item {
+    padding: 0.5rem 4rem;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.approved-form__item--information {
+    width: 80%;
+    display: grid;
+    grid-template-columns: calc(100% / 3) calc(100% / 3) calc(100% / 3);
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+}
+
+.approved-form__item--remark {
+    width: 80%;
+}
+
+.right {
+    grid-column: 1/2;
+}
+
+.middle {
+    grid-column: 2/3;
+}
+
+.left {
+    grid-column: 3/4;
+}
+
+.approved-form__text {
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    color: #000000;
+}
+
+.approved-form__input {
+    position: relative;
+    width: clamp(50px, 8vw, 100px);
+    height: clamp(14px, 3vw, 29px);
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 16px);
+    color: #000000;
+    text-align: center;
+    outline: none;
+    background: transparent;
+    border: none;
+    letter-spacing: 0.1rem;
+}
+
+.approved-form__textarea {
+    width: 100%;
+    height: clamp(36px, 6vw, 72px);
+    line-height: clamp(36px, 6vw, 72px);
+    font-weight: 700;
+    color: #000000;
+    font-size: clamp(10px, 2vw, 14px);
+    outline: none;
+    background: transparent;
+    border: none;
+    resize: none;
+    overflow-y: hidden;
+    letter-spacing: 0.1rem;
+}
+
+
+.approved-form__button {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    text-align: center;
+}
+
+.approved-form__button--submit {
+    appearance: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 0;
+    width: 20%;
+    height: clamp(25px, 4vw, 50px);
+    background: #000000;
+    font-weight: 700;
+    font-size: clamp(12px, 2vw, 22px);
+    color: #FFFFFF;
+    white-space: nowrap;
+}
+
+@media screen and (max-width:850px) {
+    .admin-amendment-approval-screen__content {
+        width: 80%;
+    }
+
+    .approved-form__heading {
+        padding: 0.5rem 1rem;
+    }
+
+    .approved-form__item {
+        padding: 0.5rem 1rem;
+    }
+}
