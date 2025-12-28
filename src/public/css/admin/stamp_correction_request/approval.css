@@ -109,6 +109,7 @@
     width: 100%;
     height: clamp(36px, 6vw, 72px);
     line-height: clamp(36px, 6vw, 72px);
+    padding: 0.2rem 1.5rem;
     font-weight: 700;
     color: #000000;
     font-size: clamp(10px, 2vw, 14px);
