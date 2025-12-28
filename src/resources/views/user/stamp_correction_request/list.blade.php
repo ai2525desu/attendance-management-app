@@ -8,7 +8,6 @@
 @if (session('message'))
 <div class="user-corection-list__session-message">
     {{ session('message') }}
-    セッションメッセージ
 </div>
 @endif
 <div class="user-corection-list__content">

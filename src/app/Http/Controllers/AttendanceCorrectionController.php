@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AttendanceApproval;
 use App\Models\AttendanceCorrectRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AttendanceCorrectionController extends Controller
 {
@@ -80,5 +82,37 @@ class AttendanceCorrectionController extends Controller
         $new = $display['newIndex'];
 
         return view('admin.stamp_correction_request.approval', compact('attendanceRequest', 'display', 'new'));
+    }
+
+    // 承認機能
+    public function storeApproval($attendance_correct_request_id)
+    {
+        DB::transaction(function () use ($attendance_correct_request_id) {
+            $attendanceRequest = AttendanceCorrectRequest::with('user', 'attendance', 'attendanceBreakCorrects')->where('id', $attendance_correct_request_id)->where('status', 'pending')->where('edited_by_admin', false)->firstOrFail();
+
+            // 承認のデータ
+            AttendanceApproval::create([
+                'admin_id' => Auth::guard('admin')->id(),
+                'attendance_correct_request_id' => $attendanceRequest->id,
+                'approved_date' => Carbon::now(),
+            ]);
+
+            // 修正前の勤怠の更新
+            $attendance = $attendanceRequest->attendance;
+            $attendance->update([
+                'clock_in' => $attendanceRequest->correct_clock_in,
+                'clock_out' => $attendanceRequest->correct_clock_out,
+            ]);
+
+            // 修正前の休憩の更新
+            foreach ($attendanceRequest->attendanceBreakCorrects as $breakCorrect) {
+            }
+
+            // 修正申請テーブルのstatusを更新
+            $attendanceRequest->update([
+                'status' => 'approved',
+            ]);
+        });
+        return redirect()->route('stamp_correction_request.list')->with('message', '承認しました');
     }
 }

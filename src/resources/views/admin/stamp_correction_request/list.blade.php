@@ -5,6 +5,11 @@
 @endsection
 
 @section('content')
+@if (session('message'))
+<div class="admin-corection-list__session-message">
+    {{ session('message') }}
+</div>
+@endif
 <div class="admin-corection-list__content">
     <h1 class="admin-corection-list__title">
         申請一覧
