@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
 use App\Models\AttendanceApproval;
+use App\Models\AttendanceBreak;
 use App\Models\AttendanceCorrectRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -62,7 +64,8 @@ class AttendanceCorrectionController extends Controller
     // 管理者の修正申請承認画面
     public function showApproval($attendance_correct_request_id)
     {
-        $attendanceRequest = AttendanceCorrectRequest::with('user', 'attendance', 'attendanceBreakCorrects')->where('id', $attendance_correct_request_id)->where('status', 'pending')->where('edited_by_admin', false)->first();
+        // $attendanceRequest = AttendanceCorrectRequest::with('user', 'attendance', 'attendanceBreakCorrects')->where('id', $attendance_correct_request_id)->where('status', 'pending')->where('edited_by_admin', false)->first();
+        $attendanceRequest = AttendanceCorrectRequest::with('user', 'attendance', 'attendanceBreakCorrects')->where('id', $attendance_correct_request_id)->firstOrFail();
 
         $display['correct_clock_in'] = $attendanceRequest->correct_clock_in ? Carbon::parse($attendanceRequest->correct_clock_in)->format('H:i') : null;
         $display['correct_clock_out'] = $attendanceRequest->correct_clock_out ? Carbon::parse($attendanceRequest->correct_clock_out)->format('H:i') : null;
@@ -87,9 +90,11 @@ class AttendanceCorrectionController extends Controller
     // 承認機能
     public function storeApproval($attendance_correct_request_id)
     {
-        DB::transaction(function () use ($attendance_correct_request_id) {
-            $attendanceRequest = AttendanceCorrectRequest::with('user', 'attendance', 'attendanceBreakCorrects')->where('id', $attendance_correct_request_id)->where('status', 'pending')->where('edited_by_admin', false)->firstOrFail();
-
+        $attendanceRequest = AttendanceCorrectRequest::with('user', 'attendance', 'attendanceBreakCorrects')->where('id', $attendance_correct_request_id)->where('status', 'pending')->where('edited_by_admin', false)->firstOrFail();
+        if ($attendanceRequest->status !== 'pending') {
+            abort(403);
+        }
+        DB::transaction(function () use ($attendanceRequest) {
             // 承認のデータ
             AttendanceApproval::create([
                 'admin_id' => Auth::guard('admin')->id(),
@@ -106,6 +111,22 @@ class AttendanceCorrectionController extends Controller
 
             // 修正前の休憩の更新
             foreach ($attendanceRequest->attendanceBreakCorrects as $breakCorrect) {
+                if (is_null($breakCorrect->attendance_break_id)) {
+                    if (is_null($breakCorrect->correct_break_start) && (is_null($breakCorrect->correct_break_end))) {
+                        continue;
+                    }
+                    $attendance->attendanceBreaks()->create([
+                        'break_start' => $breakCorrect->correct_break_start,
+                        'break_end' => $breakCorrect->correct_break_end,
+                    ]);
+                } elseif (is_null($breakCorrect->correct_break_start) && (is_null($breakCorrect->correct_break_end))) {
+                    AttendanceBreak::where('id', $breakCorrect->attendance_break_id)->delete();
+                } else {
+                    AttendanceBreak::where('id', $breakCorrect->attendance_break_id)->update([
+                        'break_start' => $breakCorrect->correct_break_start,
+                        'break_end' => $breakCorrect->correct_break_end,
+                    ]);
+                }
             }
 
             // 修正申請テーブルのstatusを更新
@@ -113,6 +134,6 @@ class AttendanceCorrectionController extends Controller
                 'status' => 'approved',
             ]);
         });
-        return redirect()->route('stamp_correction_request.list')->with('message', '承認しました');
+        return redirect()->route('stamp_correction_request.list', ['tab' => 'approved'])->with('message', '承認しました');
     }
 }

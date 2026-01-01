@@ -9,13 +9,8 @@
     <h1 class="admin-amendment-approval-screen__title">
         勤怠詳細
     </h1>
-    <!-- action未記述 -->
-    <form class="admin-amendment-approval-screen__approved-form" method="post" action="" novalidate>
+    <form class="admin-amendment-approval-screen__approved-form" method="post" action="{{ route('admin.stamp_correction_request.store_approval', ['attendance_correct_request_id' => $attendanceRequest->id]) }}" novalidate>
         @csrf
-        <input type="hidden" name="user_id" value="{{ $attendanceRequest->user->id }}">
-        <input type="hidden" name="attendance_id" value="{{ $attendanceRequest->attendance->id }}">
-        <input type="hidden" name="work_date" value="{{ $attendanceRequest->attendance->work_date }}">
-        <!-- type=hiddenで管理者IDは入れるのか？ -->
         <table class="approved-form__table">
             <tr class="approved-form__line">
                 <th class="approved-form__heading">
@@ -95,9 +90,15 @@
         </table>
         <div class="approved-form__button-wrap">
             <div class="approved-form__button">
-                <button class="approved-form__button--submit">
+                @if ($attendanceRequest->status === 'pending')
+                <button class="approved-form__button--submit pending" type="submit">
                     承認
                 </button>
+                @else
+                <button class="approved-form__button--submit approved" disabled>
+                    承認済み
+                </button>
+                @endif
             </div>
         </div>
     </form>

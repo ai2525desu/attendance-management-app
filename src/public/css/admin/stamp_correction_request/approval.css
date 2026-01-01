@@ -137,12 +137,20 @@
     padding: 0;
     width: 20%;
     height: clamp(25px, 4vw, 50px);
-    background: #000000;
     font-weight: 700;
     font-size: clamp(12px, 2vw, 22px);
     color: #FFFFFF;
     white-space: nowrap;
 }
+
+.pending {
+    background: #000000;
+}
+
+.approved {
+    background: #696969;
+}
+
 
 @media screen and (max-width:850px) {
     .admin-amendment-approval-screen__content {

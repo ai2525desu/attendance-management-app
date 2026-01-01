@@ -114,13 +114,15 @@
                             {{ $correction->attendance->work_date->isoFormat('YYYY/MM/DD') }}
                         </td>
                         <td class="correction-tab__table-information">
-                            {{ $correction->remarks }}
+                            <div class="table-information__remarks">
+                                {{ $correction->remarks }}
+                            </div>
                         </td>
                         <td class="correction-tab__table-information">
                             {{ $correction->request_date->isoFormat('YYYY/MM/DD') }}
                         </td>
                         <td class="correction-tab__table-information">
-                            <a class="correction-tab__screen-transition" ref="{{ route('admin.stamp_correction_request.approval', ['attendance_correct_request_id' => $correction->id]) }}">
+                            <a class="correction-tab__screen-transition" href="{{ route('admin.stamp_correction_request.approval', ['attendance_correct_request_id' => $correction->id]) }}">
                                 詳細
                             </a>
                         </td>

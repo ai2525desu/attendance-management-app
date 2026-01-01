@@ -114,7 +114,9 @@
                             {{ $correction->attendance->work_date->isoFormat('YYYY/MM/DD') }}
                         </td>
                         <td class="correction-tab__table-information">
-                            {{ $correction->remarks }}
+                            <div class="table-information__remarks">
+                                {{ $correction->remarks }}
+                            </div>
                         </td>
                         <td class="correction-tab__table-information">
                             {{ $correction->request_date->isoFormat('YYYY/MM/DD') }}
