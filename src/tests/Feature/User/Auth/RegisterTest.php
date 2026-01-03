@@ -3,6 +3,7 @@
 namespace Tests\Feature\User\Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class RegisterTest extends TestCase
@@ -79,5 +80,18 @@ class RegisterTest extends TestCase
         $response->assertSessionHasErrors(['password']);
         $errors = session('errors')->getBag('default');
         $this->assertEquals('パスワードを入力してください', $errors->first('password'));
+    }
+
+    // 会員情報が正常にDBに保存されているか
+    public function test_that_member_information_is_saved_correctly()
+    {
+        $response = $this->get('/register');
+        $response->assertStatus(200);
+
+        $response = $this->post('/register', $this->validRegistrationData());
+        $this->assertDatabaseHas('users', [
+            'name' => 'テストユーザー',
+            'email' => 'test@example.co.jp',
+        ]);
     }
 }
