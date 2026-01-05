@@ -57,6 +57,7 @@ class LoginTest extends TestCase
         $this->assertEquals('パスワードを入力してください', $errors->first('password'));
     }
 
+    // 登録内容が一致しない場合のバリデーションチェック
     public function test_login_information_mismatch_error()
     {
         $this->createBaseUser();
