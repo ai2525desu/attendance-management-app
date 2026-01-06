@@ -64,7 +64,6 @@ class AttendanceCorrectionController extends Controller
     // 管理者の修正申請承認画面
     public function showApproval($attendance_correct_request_id)
     {
-        // $attendanceRequest = AttendanceCorrectRequest::with('user', 'attendance', 'attendanceBreakCorrects')->where('id', $attendance_correct_request_id)->where('status', 'pending')->where('edited_by_admin', false)->first();
         $attendanceRequest = AttendanceCorrectRequest::with('user', 'attendance', 'attendanceBreakCorrects')->where('id', $attendance_correct_request_id)->firstOrFail();
 
         $display['correct_clock_in'] = $attendanceRequest->correct_clock_in ? Carbon::parse($attendanceRequest->correct_clock_in)->format('H:i') : null;
