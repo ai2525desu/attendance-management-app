@@ -16,11 +16,9 @@ class DateAndTimeTest extends UserTestCase
         $response = $this->get(route('user.attendance.registration'));
         $response->assertStatus(200);
 
-        $expectedDate = Carbon::now()->isoFormat('Y年M月D日(ddd)');
-        $expectedTime = Carbon::now()->format('H:i');
-
-        $response->assertSee($expectedDate);
-        $response->assertSee($expectedTime);
+        $dateTime = Carbon::now();
+        $response->assertSee($dateTime->isoFormat('Y年M月D日(ddd)'));
+        $response->assertSee($dateTime->format('H:i'));
 
         Carbon::setTestNow();
     }
