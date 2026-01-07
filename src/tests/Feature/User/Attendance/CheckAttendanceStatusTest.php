@@ -76,5 +76,21 @@ class CheckAttendanceStatusTest extends UserTestCase
     }
 
     // 退勤済と表示されているかどうか
-    // public function test_to_check_if_status_is_clocked_out() {}
+    public function test_to_check_if_status_is_clocked_out()
+    {
+        Carbon::setTestNow(Carbon::create(2026, 1, 7, 8, 0, 0));
+        $dateTime = Carbon::now();
+        $user = $this->loginUser();
+
+        Attendance::create([
+            'user_id' => $user->id,
+            'work_date' => $dateTime->toDateString(),
+            'clock_in' => $dateTime->toDateTimeString(),
+            'clock_out' => Carbon::parse($dateTime)->addHour(8)->toDateTimeString(),
+        ]);
+
+        $response = $this->get(route('user.attendance.registration'));
+        $response->assertStatus(200);
+        $response->assertSee('退勤済');
+    }
 }
