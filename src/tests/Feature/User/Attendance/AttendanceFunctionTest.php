@@ -74,7 +74,6 @@ class AttendanceFunctionTest extends UserTestCase
             'clock_in' => $this->now->toDateTimeString(),
         ]);
 
-
         $response = $this->get(route('user.attendance.list'));
         $response->assertStatus(200);
         $response->assertSee($this->now->isoFormat('MM/DD(ddd)'));
