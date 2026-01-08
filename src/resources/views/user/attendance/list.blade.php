@@ -52,10 +52,10 @@
                         </span>
                     </td>
                     <td class="monthly-attendance__item">
-                        {{ $day['attendance'] ? $day['attendance']->clock_in->format('H:i') : '' }}
+                        {{ $day['attendance'] ? $day['attendance']?->clock_in?->format('H:i') : '' }}
                     </td>
                     <td class="monthly-attendance__item">
-                        {{ $day['attendance'] ? $day['attendance']->clock_out->format('H:i') : '' }}
+                        {{ $day['attendance'] ? $day['attendance']?->clock_out?->format('H:i') : '' }}
                     </td>
                     <td class="monthly-attendance__item">
                         {{ $day['total_break_format']}}
