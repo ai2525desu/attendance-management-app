@@ -25,7 +25,7 @@ class AttendanceFactory extends Factory
         ];
     }
 
-    // 隔月ごとの勤怠データをまとめて生成するメソッド
+    // Seeder用に隔月ごとの勤怠データをまとめて生成するメソッド
     public function forMonth(Carbon $month)
     {
         return $this->afterCreating(function ($model) use ($month) {
@@ -51,7 +51,23 @@ class AttendanceFactory extends Factory
                     'clock_out' => $clockOut->toDateTimeString(),
                 ]);
             }
+            // ダミーとして作成した1件を削除
             $model->delete();
         });
+    }
+
+    // FeatureTest用に出勤・退勤済みの勤怠を1件作成
+    public function worked(?Carbon $date = null)
+    {
+        $date ??= now();
+        return $this->state(
+            function () use ($date) {
+                return [
+                    'work_date' => $date->toDateString(),
+                    'clock_in' => $date->copy()->setTime(8, 0)->toDateTimeString(),
+                    'clock_out' => $date->copy()->setTime(17, 0)->toDateTimeString(),
+                ];
+            }
+        );
     }
 }

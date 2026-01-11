@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Attendance;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,5 +22,15 @@ class AttendanceBreakFactory extends Factory
             'break_start' => $breakStart,
             'break_end' => $breakEnd,
         ];
+    }
+
+    // FeaturTest用
+    public function forAttendance(Attendance $attendance)
+    {
+        return $this->state(function () use ($attendance) {
+            return [
+                'attendance_id' => $attendance->id,
+            ];
+        });
     }
 }
