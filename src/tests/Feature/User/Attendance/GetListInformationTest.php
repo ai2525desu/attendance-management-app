@@ -58,6 +58,8 @@ class GetListInformationTest extends UserTestCase
             $response->assertSee($attendance->clock_in->format('H:i'));
             $response->assertSee($attendance->clock_out->format('H:i'));
         }
-        $response->assertSee('01:00');
+        foreach ($attendances as $attendance) {
+            $response->assertSee('01:00');
+        }
     }
 }
