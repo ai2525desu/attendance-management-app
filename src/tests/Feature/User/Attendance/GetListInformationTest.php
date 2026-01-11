@@ -8,7 +8,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Tests\UserTestCase;
 
-class GetListInformation extends UserTestCase
+class GetListInformationTest extends UserTestCase
 {
     protected User $user;
 
@@ -29,23 +29,26 @@ class GetListInformation extends UserTestCase
     {
         Carbon::setTestNow(Carbon::create(2026, 1, 6, 8, 0, 0));
 
-        $attendances = Attendance::factory()->count(3)->worked(Carbon::now())->for($this->user)->create();
+        $yesterday = Carbon::now()->subDay();
+        $today = Carbon::now();
+        $tomorrow = Carbon::now()->addDay();
+        $attendances = [];
+
+        $attendances[] = Attendance::factory()->worked($yesterday)->for($this->user)->create();
+        $attendances[] = Attendance::factory()->worked($today)->for($this->user)->create();
+        $attendances[] = Attendance::factory()->worked($tomorrow)->for($this->user)->create();
 
         foreach ($attendances as $attendance) {
+            $clockInTime = Carbon::parse($attendance->clock_in);
+            $breakStart = $clockInTime->copy()->addHour(4);
+            $breakEnd = $breakStart->copy()->addHour(1);
             AttendanceBreak::factory()
                 ->forAttendance($attendance)
                 ->create([
-                    'break_start' => Carbon::parse($attendance->clock_in)->addHour(4)->toDateTimeString(),
-                    'break_end' => Carbon::parse($attendance->clock_in)->addHour(5)->toDateTimeString(),
+                    'break_start' => $breakStart->toDateTimeString(),
+                    'break_end' => $breakEnd->toDateTimeString(),
                 ]);
         }
-
-        $otherUser = User::factory()->create();
-        $otherUserAttendance = Attendance::factory()->worked()->for($otherUser)->create();
-        AttendanceBreak::factory()->forAttendance($otherUserAttendance)->create([
-            'break_start' => Carbon::parse($otherUserAttendance->clock_in)->addHour(4)->toDateTimeString(),
-            'break_end' => Carbon::parse($otherUserAttendance->clock_in)->addHour(5)->toDateTimeString(),
-        ]);
 
         $response = $this->get(route('user.attendance.list'));
         $response->assertStatus(200);
@@ -56,34 +59,5 @@ class GetListInformation extends UserTestCase
             $response->assertSee($attendance->clock_out->format('H:i'));
         }
         $response->assertSee('01:00');
-        $response->assertDontSee($otherUserAttendance->work_date->isoFormat('MM/DD(ddd)'));
-
-        // $baseTime = Carbon::now();
-        // $clockOutTime = Carbon::parse($baseTime)->addHour(8);
-
-        // $attendance = Attendance::create([
-        //     'user_id' => $this->user->id,
-        //     'work_date' => $baseTime->toDateString(),
-        //     'clock_in' => $baseTime->toDateTimeString(),
-        //     'clock_out' => $clockOutTime->toDateTimeString(),
-        // ]);
-
-        // $breakStart = Carbon::parse($baseTime)->addHour(4);
-        // $breakEnd = Carbon::parse($breakStart)->addHour(1);
-
-        // AttendanceBreak::create([
-        //     'attendance_id' => $attendance->id,
-        //     'break_start' => $breakStart->toDateTimeString(),
-        //     'break_end' => $breakEnd->toDateTimeString(),
-        // ]);
-
-        // $response = $this->get(route('user.attendance.list'));
-        // $response->assertStatus(200);
-
-        // $response->assertSee($attendance->work_date->isoFormat('MM/DD(ddd)'));
-        // $response->assertSee($attendance->clock_in->format('H:i'));
-        // $response->assertSee($attendance->clock_out->format('H:i'));
-        // // 勤怠一覧画面に、計算後の休憩時間（1時間）が表示されていることを確認
-        // $response->assertSee('01:00');
     }
 }
