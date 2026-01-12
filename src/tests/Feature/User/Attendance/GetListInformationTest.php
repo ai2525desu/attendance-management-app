@@ -8,8 +8,6 @@ use App\Models\User;
 use Carbon\Carbon;
 use Tests\UserTestCase;
 
-use function PHPUnit\Framework\assertDoesNotMatchRegularExpression;
-
 class GetListInformationTest extends UserTestCase
 {
     protected User $user;
@@ -99,7 +97,7 @@ class GetListInformationTest extends UserTestCase
         $response->assertStatus(200);
         $response->assertSee('前月');
 
-        $response = $this->get('/attendance/list?year=2025&month=12');
+        $response = $this->get(route('user.attendance.list', ['year' => 2025, 'month' => 12]));
 
         $response->assertStatus(200);
         $previousMonth = $previousMonthData->format('Y/m');
@@ -133,7 +131,7 @@ class GetListInformationTest extends UserTestCase
         $response->assertStatus(200);
         $response->assertSee('翌月');
 
-        $response = $this->get('/attendance/list?year=2026&month=2');
+        $response = $this->get(route('user.attendance.list', ['year' => 2026, 'month' => 2]));
 
         $response->assertStatus(200);
         $nextMonth = $nextMonthData->format('Y/m');
@@ -142,5 +140,37 @@ class GetListInformationTest extends UserTestCase
         $response->assertSee($nextAttendance->clock_in->format('H:i'));
         $response->assertSee($nextAttendance->clock_out->format('H:i'));
         $response->assertSee('01:00');
+    }
+
+    // 詳細ボタンを押すと勤怠詳細画面に遷移する
+    public function test_that_transitions_to_the_attendance_details_screen_when_you_press_the_details_button()
+    {
+        Carbon::setTestNow(Carbon::create(2026, 1, 6, 8, 0, 0));
+
+        $attendance = Attendance::factory()->worked()->for($this->user)->create();
+        $clockInTime = Carbon::parse($attendance->clock_in);
+        $breakStart = $clockInTime->copy()->addHour(4);
+        $breakEnd = $breakStart->copy()->addHour(1);
+        $attendanceBreak = AttendanceBreak::factory()
+            ->forAttendance($attendance)
+            ->create([
+                'break_start' => $breakStart->toDateTimeString(),
+                'break_end' => $breakEnd->toDateTimeString(),
+            ]);
+
+        $response = $this->get(route('user.attendance.list'));
+
+        $response->assertStatus(200);
+        $response->assertSee('詳細');
+
+        $response = $this->get(route('user.attendance.detail', ['id' => $attendance->id]));
+
+        $response->assertStatus(200);
+        $response->assertSee($attendance->work_date->format('Y年'));
+        $response->assertSee($attendance->work_date->format('m月d日'));
+        $response->assertSee($attendance->clock_in->format('H:i'));
+        $response->assertSee($attendance->clock_out->format('H:i'));
+        $response->assertSee($attendanceBreak->break_start->format('H:i'));
+        $response->assertSee($attendanceBreak->break_end->format('H:i'));
     }
 }
