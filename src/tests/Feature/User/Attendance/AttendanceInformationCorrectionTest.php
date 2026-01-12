@@ -43,7 +43,7 @@ class AttendanceInformationCorrectionTest extends UserTestCase
         $response->assertStatus(200);
 
         $clockOut = Carbon::parse($this->attendance->clock_out);
-        $this->post(route('user.attendance.storeCorrection', ['id' => $this->attendance->id]), [
+        $response = $this->post(route('user.attendance.storeCorrection', ['id' => $this->attendance->id]), [
             'attendance_id' => $this->attendance->id,
             'work_date' => $this->attendance->work_date->format('Y-m-d'),
             'correct_clock_in' => $clockOut->copy()->addMinute(30)->format('H:i'),
@@ -68,7 +68,7 @@ class AttendanceInformationCorrectionTest extends UserTestCase
         $break = $this->attendance->attendanceBreaks->first();
         $breakEnd = Carbon::parse($break->break_end);
 
-        $this->post(route('user.attendance.storeCorrection', ['id' => $this->attendance->id]), [
+        $response = $this->post(route('user.attendance.storeCorrection', ['id' => $this->attendance->id]), [
             'attendance_id' => $this->attendance->id,
             'work_date' => $this->attendance->work_date->format('Y-m-d'),
             'correct_clock_in' => $clockIn->format('H:i'),
@@ -99,7 +99,7 @@ class AttendanceInformationCorrectionTest extends UserTestCase
         $break = $this->attendance->attendanceBreaks->first();
         $breakStart = Carbon::parse($break->break_start);
 
-        $this->post(route('user.attendance.storeCorrection', ['id' => $this->attendance->id]), [
+        $response = $this->post(route('user.attendance.storeCorrection', ['id' => $this->attendance->id]), [
             'attendance_id' => $this->attendance->id,
             'work_date' => $this->attendance->work_date->format('Y-m-d'),
             'correct_clock_in' => $clockIn->format('H:i'),
@@ -131,7 +131,7 @@ class AttendanceInformationCorrectionTest extends UserTestCase
         $breakStart = Carbon::parse($break->break_start);
         $breakEnd = Carbon::parse($break->break_end);
 
-        $this->post(route('user.attendance.storeCorrection', ['id' => $this->attendance->id]), [
+        $response = $this->post(route('user.attendance.storeCorrection', ['id' => $this->attendance->id]), [
             'attendance_id' => $this->attendance->id,
             'work_date' => $this->attendance->work_date->format('Y-m-d'),
             'correct_clock_in' => $clockIn->format('H:i'),
@@ -165,7 +165,7 @@ class AttendanceInformationCorrectionTest extends UserTestCase
         $breakEnd = Carbon::parse($break->break_end);
 
         // 退勤時間を修正して保存処理
-        $this->post(route('user.attendance.storeCorrection', ['id' => $this->attendance->id]), [
+        $response = $this->post(route('user.attendance.storeCorrection', ['id' => $this->attendance->id]), [
             'attendance_id' => $this->attendance->id,
             'work_date' => $this->attendance->work_date->format('Y-m-d'),
             'correct_clock_in' => $clockIn->format('H:i'),
@@ -178,6 +178,9 @@ class AttendanceInformationCorrectionTest extends UserTestCase
             ],
             'remarks' => '退勤時間を2時間後に修正',
         ]);
+
+        $response->assertRedirect(route('stamp_correction_request.list'));
+        $response->assertStatus(302);
 
         $correctionRequestDate = Carbon::now()->format('Y-m-d');
         $workDate = $this->attendance->work_date->format('Y-m-d');
@@ -225,5 +228,145 @@ class AttendanceInformationCorrectionTest extends UserTestCase
         $response->assertSee($this->user->name);
         $response->assertSee($clockOut->copy()->addHour(2)->format('H:i'));
         $response->assertSee('退勤時間を2時間後に修正');
+    }
+
+    // 承認待ちにログインユーザーが行った修正が全て表示されているか
+    public function test_whether_all_changes_made_by_the_logged_in_user_are_displayed_on_the_pending_approval_screen()
+    {
+        // 修正申請する日時を1日後として設定
+        Carbon::setTestNow($this->now->addDay(1));
+        $response = $this->get(route('user.attendance.detail', ['id' => $this->attendance->id]));
+        $response->assertStatus(200);
+
+        $clockIn = Carbon::parse($this->attendance->clock_in);
+        $clockOut = Carbon::parse($this->attendance->clock_out);
+        $break = $this->attendance->attendanceBreaks->first();
+        $breakStart = Carbon::parse($break->break_start);
+        $breakEnd = Carbon::parse($break->break_end);
+
+        // 出勤時間を修正して保存処理
+        $response = $this->post(route('user.attendance.storeCorrection', ['id' => $this->attendance->id]), [
+            'attendance_id' => $this->attendance->id,
+            'work_date' => $this->attendance->work_date->format('Y-m-d'),
+            'correct_clock_in' => $clockIn->copy()->addMinute(30)->format('H:i'),
+            'correct_clock_out' => $clockOut->format('H:i'),
+            'correct_break_start' => [
+                0 => ['start' => $breakStart->format('H:i')],
+            ],
+            'correct_break_end' => [
+                0 => ['end' => $breakEnd->format('H:i')],
+            ],
+            'remarks' => '申請一覧表示テスト用',
+        ]);
+
+        $response = $this->get(route('stamp_correction_request.list'));
+
+        $response->assertStatus(200);
+        $response->assertSee('承認待ち');
+        $response->assertSee($this->user->name);
+        $response->assertSee('申請一覧表示テスト用');
+    }
+
+    // 管理者が承認した申請が申請一覧の承認済みに表示される
+    public function test_where_approved_request_are_displayed_as_approved_in_the_stamp_correction_list()
+    {
+        // 修正申請する日時を1日後として設定
+        Carbon::setTestNow($this->now->addDay(1));
+        $response = $this->get(route('user.attendance.detail', ['id' => $this->attendance->id]));
+        $response->assertStatus(200);
+
+        $clockIn = Carbon::parse($this->attendance->clock_in);
+        $clockOut = Carbon::parse($this->attendance->clock_out);
+        $break = $this->attendance->attendanceBreaks->first();
+        $breakStart = Carbon::parse($break->break_start);
+        $breakEnd = Carbon::parse($break->break_end);
+
+        // 出勤時間を修正して保存処理
+        $response = $this->post(route('user.attendance.storeCorrection', ['id' => $this->attendance->id]), [
+            'attendance_id' => $this->attendance->id,
+            'work_date' => $this->attendance->work_date->format('Y-m-d'),
+            'correct_clock_in' => $clockIn->copy()->addMinute(30)->format('H:i'),
+            'correct_clock_out' => $clockOut->format('H:i'),
+            'correct_break_start' => [
+                0 => ['start' => $breakStart->format('H:i')],
+            ],
+            'correct_break_end' => [
+                0 => ['end' => $breakEnd->format('H:i')],
+            ],
+            'remarks' => '申請一覧表示テスト用',
+        ]);
+
+        // 管理者としてログインし、承認を実行
+        $admin = Admin::factory()->fixed()->create();
+        $this->actingAs($admin, 'admin');
+
+        $userAttendanceCorrection = AttendanceCorrectRequest::where('attendance_id', $this->attendance->id)->where('user_id', $this->user->id)->latest('id')->first();
+        $response = $this->post(route('admin.stamp_correction_request.store_approval', ['attendance_correct_request_id' => $userAttendanceCorrection->id]), [
+            'attendance_correct_request_id' => $userAttendanceCorrection->id,
+        ]);
+        $this->assertDatabaseHas('attendance_approvals', [
+            'admin_id' => $admin->id,
+            'attendance_correct_request_id' => $userAttendanceCorrection->id,
+            'approved_date' => Carbon::now()->toDateString(),
+        ]);
+        $this->assertDatabaseHas('attendance_correct_requests', [
+            'id' => $userAttendanceCorrection->id,
+            'attendance_id' => $this->attendance->id,
+            'status' => 'approved',
+        ]);
+
+        // 一般ユーザーでログインし、申請一覧画面（承認済みタブ）を開く
+        $user = $this->user;
+        $this->actingAs($user, 'web');
+
+        $response = $this->get(route('stamp_correction_request.list', ['tab' => 'approved']));
+
+        $response->assertStatus(200);
+        $response->assertSee('承認済み');
+        $response->assertSee($this->user->name);
+        $response->assertSee('申請一覧表示テスト用');
+    }
+
+    // 申請の詳細ボタンを押下すると勤怠詳細画面に遷移する
+    public function test_that_transitions_to_the_attendance_details_screen_when_the_details_button_is_pressed()
+    {
+        // 修正申請する日時を1日後として設定
+        Carbon::setTestNow($this->now->addDay(1));
+        $response = $this->get(route('user.attendance.detail', ['id' => $this->attendance->id]));
+        $response->assertStatus(200);
+
+        $clockIn = Carbon::parse($this->attendance->clock_in);
+        $clockOut = Carbon::parse($this->attendance->clock_out);
+        $break = $this->attendance->attendanceBreaks->first();
+        $breakStart = Carbon::parse($break->break_start);
+        $breakEnd = Carbon::parse($break->break_end);
+
+        // 退勤時間を修正して保存処理
+        $response = $this->post(route('user.attendance.storeCorrection', ['id' => $this->attendance->id]), [
+            'attendance_id' => $this->attendance->id,
+            'work_date' => $this->attendance->work_date->format('Y-m-d'),
+            'correct_clock_in' => $clockIn->format('H:i'),
+            'correct_clock_out' => $clockOut->copy()->addHour(2)->format('H:i'),
+            'correct_break_start' => [
+                0 => ['start' => $breakStart->format('H:i')],
+            ],
+            'correct_break_end' => [
+                0 => ['end' => $breakEnd->format('H:i')],
+            ],
+            'remarks' => '退勤時間を2時間後に修正',
+        ]);
+
+        $response = $this->get(route('stamp_correction_request.list'));
+
+        $response->assertStatus(200);
+        $response->assertSee('詳細');
+
+        $attendanceCorrection = AttendanceCorrectRequest::where('attendance_id', $this->attendance->id)->where('user_id', $this->user->id)->latest('id')->first();
+        $response = $this->get(route('user.attendance.detail', ['id' => $attendanceCorrection->attendance->id]));
+
+        $response->assertStatus(200);
+        $response->assertSee($clockOut->copy()->addHour(2)->format('H:i'));
+        $response->assertSee('退勤時間を2時間後に修正');
+        $response->assertSee('承認待ちのため修正はできません');
     }
 }
