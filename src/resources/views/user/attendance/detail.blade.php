@@ -18,7 +18,6 @@
     <form class="user-attendance-detail__correction-form" method="post" action="{{ route('user.attendance.storeCorrection', ['id' => $attendance->id]) }}" novalidate>
         @csrf
         <input type="hidden" name="attendance_id" value="{{ $attendance->id }}">
-        <input type="hidden" name="user_id" value="{{ $user->id }}">
         <input type="hidden" name="work_date" value="{{ $attendance->work_date->format('Y-m-d') }}">
         <table class="correction-form__table">
             <tr class="correction-form__line">
