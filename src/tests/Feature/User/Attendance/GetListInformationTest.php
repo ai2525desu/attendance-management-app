@@ -105,7 +105,8 @@ class GetListInformationTest extends UserTestCase
         $response->assertSee($previousAttendance->work_date->isoFormat('MM/DD(ddd)'));
         $response->assertSee($previousAttendance->clock_in->format('H:i'));
         $response->assertSee($previousAttendance->clock_out->format('H:i'));
-        $response->assertSee('01:00');
+        $response->assertSee($previousAttendance->displayBreakTimeInHourFormat());
+        $response->assertSee($previousAttendance->displayWorkingTimeInHourFormat());
     }
 
     // 翌月の勤怠データが表示されているか
@@ -139,7 +140,8 @@ class GetListInformationTest extends UserTestCase
         $response->assertSee($nextAttendance->work_date->isoFormat('MM/DD(ddd)'));
         $response->assertSee($nextAttendance->clock_in->format('H:i'));
         $response->assertSee($nextAttendance->clock_out->format('H:i'));
-        $response->assertSee('01:00');
+        $response->assertSee($nextAttendance->displayBreakTimeInHourFormat());
+        $response->assertSee($nextAttendance->displayWorkingTimeInHourFormat());
     }
 
     // 詳細ボタンを押すと勤怠詳細画面に遷移する
