@@ -98,7 +98,7 @@ class GetListInformationTest extends AdminTestCase
 
         $response->assertStatus(200);
         $response->assertSee(
-            Carbon::today()->subDay()->isoFormat('Y年M月D日')
+            $currentDay->copy()->subDay()->isoFormat('Y年M月D日')
         );
 
         $previousAttendances = Attendance::whereDate('work_date', $previous)->get();
@@ -127,7 +127,7 @@ class GetListInformationTest extends AdminTestCase
 
         $response->assertStatus(200);
         $response->assertSee(
-            Carbon::today()->addDay()->isoFormat('Y年M月D日')
+            $currentDay->copy()->addDay()->isoFormat('Y年M月D日')
         );
 
         $nextAttendances = Attendance::whereDate('work_date', $next)->get();
