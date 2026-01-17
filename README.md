@@ -85,7 +85,6 @@
 2. 下記のコマンドでテストを実行する<br>
     ``` php artisan test ```
 
-<!-- Ubuntu,VSCode,Docker最終記述で確定すること -->
 ## 使用環境（実行環境）
 - Windows 11 Home
 - Ubuntu 24.04.1 LTS
