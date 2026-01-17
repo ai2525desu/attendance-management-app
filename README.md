@@ -1,5 +1,4 @@
 # 勤怠管理アプリ：attendance-management-app
-<!-- 10/17Laravelプロジェクト立ち上げ時に簡易記述 -->
 
 ## 前提条件
 - Gitがインストールされている
@@ -58,11 +57,11 @@
 * 2025_11_27_235300_create_attendance_break_corrects_table.php
 
 **シーダーファイル**
-<!-- 作成後、その都度追加すること -->
 * AdminsTableseeder.php
+* AttendanceBreaksTableSeeder.php
+* AttendancesTableSeeder.php
 * UsersTableseeder.php
 
-<!-- 10/17 PHPUnitテスト実行できるように各ファイル記述済みの状態。記述内容確認必ず -->
 ## PHPUnit/テスト環境の準備と実行について
 **テスト環境の準備**
 1. 「.env.testing.example」を「.env.testing」に命名変更。または、新しく「.env.testing」ファイルを作成する。
@@ -89,9 +88,9 @@
 <!-- Ubuntu,VSCode,Docker最終記述で確定すること -->
 ## 使用環境（実行環境）
 - Windows 11 Home
-- Ubuntu 
-- VSCode 
-- Docker version 
+- Ubuntu 24.04.1 LTS
+- VSCode 1.108.0
+- Docker version 29.1.3
 - Laravel Framework 8.83.29
 - PHP 8.1
 - nginx:1.21.1
