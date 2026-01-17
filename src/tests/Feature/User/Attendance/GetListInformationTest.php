@@ -57,9 +57,8 @@ class GetListInformationTest extends UserTestCase
             $response->assertSee($attendance->work_date->isoFormat('MM/DD(ddd)'));
             $response->assertSee($attendance->clock_in->format('H:i'));
             $response->assertSee($attendance->clock_out->format('H:i'));
-        }
-        foreach ($attendances as $attendance) {
-            $response->assertSee('01:00');
+            $response->assertSee($attendance->displayWorkingTimeInHourFormat());
+            $response->assertSee($attendance->displayBreakTimeInHourFormat());
         }
     }
 
