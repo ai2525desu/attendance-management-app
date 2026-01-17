@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 
+// 01/17 22:41 delete予定のためgitniBackUPとしてpush
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
