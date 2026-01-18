@@ -121,7 +121,6 @@
     letter-spacing: 0.1rem;
 }
 
-
 .approved-form__button {
     display: flex;
     justify-content: end;
@@ -150,7 +149,6 @@
 .approved {
     background: #696969;
 }
-
 
 @media screen and (max-width:850px) {
     .admin-amendment-approval-screen__content {

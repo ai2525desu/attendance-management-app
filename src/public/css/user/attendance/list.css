@@ -50,7 +50,6 @@
     letter-spacing: 0.15em;
 }
 
-
 .pagination__month--title.current-month {
     font-weight: 700;
     font-size: clamp(16px, 2vw, 20px);
