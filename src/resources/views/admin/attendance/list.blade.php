@@ -51,7 +51,7 @@
                         {{ $attendance->clock_in->format('H:i') }}
                     </td>
                     <td class="day-attendance__item">
-                        {{ $attendance->clock_out->format('H:i') }}
+                        {{ $attendance?->clock_out?->format('H:i') }}
                     </td>
                     <td class="day-attendance__item">
                         {{ $attendance->displayBreakTimeInHourFormat() }}
