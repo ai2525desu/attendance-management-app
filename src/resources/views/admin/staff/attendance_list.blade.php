@@ -7,7 +7,7 @@
 @section('content')
 <div class="staff-attendance-list__content">
     <h1 class="staff-attendance-list__title">
-        {{ $user->name }}の勤怠一覧
+        {{ $user->name }}さんの勤怠一覧
     </h1>
     <div class="staff-attendance-list__pagination">
         <a class="pagination__month" href="{{ route('admin.staff.attendance_list', ['id' => $user->id, 'year' => $previous->year, 'month' => $previous->month]) }}">
